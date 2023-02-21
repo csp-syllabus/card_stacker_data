@@ -1,0 +1,21 @@
+{
+    "name": "vite-typescript-starter",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite --host",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "typescript": "^4.9.3",
+        "vite": "^4.1.4"
+    },
+    "dependencies": {
+        "@pixi/ui": "^0.3.0",
+        "jquery": "^3.6.3",
+        "jQuery": "^1.7.4",
+        "pixi.js": "^7.1.0"
+    }
+}
