@@ -9,6 +9,8 @@ function onDataLoaded () {
     properties.plan_unique_id = instance.data.result.Plan['_id'];
     properties.html_field = instance.data.result.Plan['JQTree HTML'];
     properties.type_of_items_type = {};
+    instance.data.data_source_length = instance.data.APS_result.length;
+    instance.data.attplansnippetsLoad = instance.data.result['APS'];
     }
 ///initialize variables
 var isBubble = false;
@@ -19,6 +21,8 @@ instance.triggerEvent;
 instance.publishState;
 var properties = {};
 properties.data_source = [];
+instance.canvas = $('#cardstack');
+console.log("instance canvas",instance.canvas);
 }
 ///start_initialize
 instance.data.listcount = 0;
@@ -72,23 +76,37 @@ instance.data.getAPS = function (plan) {
 //
 console.log(instance.data.getAPS(planId));
 
-
 instance.data.properties = properties;
 }
-//
-if(instance.data.focused){
-  //return;   
+
+if (isBubble) {
+    instance.data.data_source_length = properties.data_source.length();
+    instance.data.plan_unique_id = properties.plan_unique_id;
+    instance.data.attplansnippetsLoad = properties.data_source.get(0, instance.data.data_source_length);
+    instance.data.htmlField = properties.html_field;
+}
+// end load data
+//wrapped to avoid return error
+function isFocused (focused) {
+if (focused){
+  return;   
  }
+}
+isFocused(instance.data.focused);
  //Make Card Stack Panel instance based for multiple instances of the plugin on a page
- instance.data.plan_unique_id = properties.plan_unique_id;
+ instance.data.plan_unique_id = instance.data.plan_unique_id;
 
  //Prevent Update from running when add_new_list_item runs
- if (instance.data.halted){
- //  return;
- }
- 
+//wrapped to avoid return error
+ function isHalted (halted) {
+    if (halted){
+     return;
+    }
+   } 
+isHalted(instance.data.halted);
+
  // HTML rerendered only when a new card is added to the plan    
- if (instance.data.listcount == properties.data_source.length()) {
+ if (instance.data.listcount == instance.data.data_source_length) {
      
      instance.canvas.addClass(`cardstackQuill`)
      $(`.cardstackQuill .ql-toolbar`).remove()
@@ -196,12 +214,12 @@ toolbars.forEach(toolbar => {
 
  //Checking and setting the html 
  instance.data.cardsList = '';
- if (properties.html_field) {
-     instance.data.cardsList = properties.html_field
+ if (instance.data.htmlField) {
+     instance.data.cardsList = instance.data.htmlField
      instance.canvas.html(instance.data.cardsList)
 
      //Calling the Nested Sortable library on the pre-existing HTML
-     instance.data.ns = $('ol.sortable#' + properties.plan_unique_id).nestedSortable({
+     instance.data.ns = $('ol.sortable#' + instance.data.plan_unique_id).nestedSortable({
          forcePlaceholderSize: true,
          handle: '.dragHandle',
          helper: 'clone',
@@ -227,11 +245,7 @@ toolbars.forEach(toolbar => {
              }, 10);
          }
      });
-     instance.data.listcount = properties.data_source.length();
-
-
-  
-
+     instance.data.listcount = instance.data.data_source_length;
 
 
  } else {
@@ -239,8 +253,8 @@ toolbars.forEach(toolbar => {
 
      //retrieve the list of snippets from the app
 
-     if (properties.data_source.length() > 0) {
-         instance.data.attplansnippets = properties.data_source.get(0, properties.data_source.length());
+     if (instance.data.data_source_length > 0) {
+         instance.data.attplansnippets = instance.data.attplansnippetsLoad;
          //console.log(instance.data.attplansnippets[0].get("description_text"));
 
 
@@ -262,19 +276,19 @@ toolbars.forEach(toolbar => {
 
 
          // Looping through all the attribute plan snippets and creating their markup     
-         for (let i = 0; i < properties.data_source.length(); i++) {
+         for (let i = 0; i < instance.data.data_source_length; i++) {
              instance.data.cardsList += generateListItemHtml(instance.data.attplansnippets[i]);
 
          }
 
      }
 
-     instance.data.cardElement.html(instance.data.cardsList)
+     //instance.data.cardElement.html(instance.data.cardsList)
 
 
 
      //Dropping the entire markup inside an <ol> with class sortable for Nested Sortable      
-     let data = `<ol id="` + properties.plan_unique_id + `" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">` + instance.data.cardsList + "</ol>";
+     let data = `<ol id="` + instance.data.plan_unique_id + `" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">` + instance.data.cardsList + "</ol>";
 
 
      //Calling nestedSortable on newly created markup    
@@ -364,7 +378,7 @@ toolbars.forEach(toolbar => {
 
 
      
-     instance.data.ns = $('ol.sortable#' + properties.plan_unique_id).nestedSortable({
+     instance.data.ns = $('ol.sortable#' + instance.data.plan_unique_id).nestedSortable({
          forcePlaceholderSize: true,
          handle: '.dragHandle',
          helper: 'clone',
@@ -456,7 +470,7 @@ toolbars.forEach(toolbar => {
  });
 
 
- instance.data.listcount = properties.data_source.length();
+ instance.data.listcount = instance.data.data_source_length;
 
 $(".itemTitle").on("input", function(){
    let editedCardId = $(this).attr('data-id');
@@ -465,3 +479,6 @@ $(".itemTitle").on("input", function(){
    instance.publishState("editedcard_id", editedCardId);
 });
 //end update
+
+
+window.CSP = instance;
