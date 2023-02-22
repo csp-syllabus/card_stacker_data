@@ -1,9 +1,25 @@
+///load function
+function onDataLoaded () {
+    console.log("results",instance.data.result,"instance.data.APS_result",instance.data.APS_result);
+    window.instance = instance;
+    ///update variables
+    properties.data_source = instance.data.APS_result;
+    console.log(instance.data.result['APS'], instance.data.result.APS,properties.data_source);
+    properties.type_of_items = '';
+    properties.plan_unique_id = instance.data.result.Plan['_id'];
+    properties.html_field = instance.data.result.Plan['JQTree HTML'];
+    properties.type_of_items_type = {};
+    }
 ///initialize variables
+var isBubble = false;
+if (!isBubble) {
 var instance = {};
 instance.data = {};
 instance.triggerEvent;
 instance.publishState;
-
+var properties = {};
+properties.data_source = [];
+}
 ///start_initialize
 instance.data.listcount = 0;
 instance.data.handleTypingChange = (content, id) => {
@@ -25,24 +41,50 @@ instance.data.handleStopTyping = (content, id) => {
 //end initialize
 
 ///start update
-///update variables
-var properties = {};
-properties.data_source = {};
-properties.type_of_items = '';
-properties.plan_unique_id = '';
-properties.html_field = '';
-properties.type_of_items_type = {};
+//get data
+if (!isBubble) {
+var planId = '1676919741261x383730956458524700';
+//
+instance.data.getAPS = function (plan) {
+    // Create a form data object
+    let bodyContent = new FormData();
+    bodyContent.append("plan_id", plan);
+    let headersList = {
+        "Accept": "*/*",
+    };
+    // Fetch the data from the API endpoint using POST method
+    fetch(`https://d110.bubble.is/site/proresults/version-chris-sandbox-37point5/api/1.1/wf/get_aps`, {
+        method: "POST",
+        body: bodyContent,
+        headers: headersList
+    }).then(response => response.json()).then(result => {
 
+        console.log(result.response);
+        instance.data.result = result.response;
+        instance.data.APS_result = result.response.APS;
+        onDataLoaded();
+        return result
+    }).catch(error => {
+        console.log(error);
+        throw error
+    });
+}
+//
+console.log(instance.data.getAPS(planId));
+
+
+instance.data.properties = properties;
+}
 //
 if(instance.data.focused){
-  return;   
+  //return;   
  }
  //Make Card Stack Panel instance based for multiple instances of the plugin on a page
  instance.data.plan_unique_id = properties.plan_unique_id;
 
  //Prevent Update from running when add_new_list_item runs
  if (instance.data.halted){
-   return;
+ //  return;
  }
  
  // HTML rerendered only when a new card is added to the plan    
@@ -146,7 +188,7 @@ toolbars.forEach(toolbar => {
          });
 
      })
-     return;
+    // return;
  }
 
  //console.log(properties.type_of_items_type.listProperties()); Returns all accessible properties
