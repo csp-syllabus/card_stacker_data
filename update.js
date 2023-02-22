@@ -1,4 +1,5 @@
  
+
     if(instance.data.focused){
      return;   
     }
