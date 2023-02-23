@@ -1,6 +1,7 @@
 ///start_initialize
 ///initialize variables
 var isBubble = false;
+var randomElementID = `ddt-${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}`
 if (!isBubble) {
 var instance = {};
 instance.data = {};
@@ -8,6 +9,7 @@ instance.data.listcount = 0;
 instance.triggerEvent;
 instance.publishState;
 instance.data.isBubble = isBubble;
+instance.data.randomElementID = randomElementID;
 var properties = {};
 properties.data_source = [];
 instance.data.mainElement = $('#cardstack');
@@ -15,9 +17,9 @@ instance.data.mainElement.append(`<div id="temp" class="invisible"></div>`);
 instance.data.temp = $('#temp');
 console.log("instance canvas",instance.data.mainElement);
 } else {
-instance.canvas.append(`<div id="cardstack"></div> <div id="temp" class="invisible"></div>`);
-instance.data.mainElement = $('#cardstack');
-instance.data.temp = $('#temp');
+instance.canvas.append(`<div id="cardstack${instance.data.randomElementID}"></div> <div id="temp${instance.data.randomElementID}" class="invisible"></div>`);
+instance.data.mainElement = $(`#cardstack${instance.data.randomElementID}`);
+instance.data.temp = $(`#temp${instance.data.randomElementID}`);
 instance.data.isBubble = isBubble;
 }
 instance.data.handleTypingChange = (content, id) => {
