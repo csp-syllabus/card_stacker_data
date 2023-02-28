@@ -1,175 +1,372 @@
 <!DOCTYPE html>
-
 <html lang="en">
-    <head>
-<style>
-    .innertext{
-        cursor:text;    
-    }
-    
-    .placeholder {
-        outline: 1px dashed #4183C4;
-    }    
-    
-    .mjs-nestedSortable-error {
-        background: #fbe3e4;
-        border-color: transparent;
-    }
-    
-    #tree {
-        width: 550px;
-        margin: 0;
-    }
-            
-    ol.sortable,ol.sortable ol {
-        list-style-type: none;
-        max-width: 850px;
-        padding-left: 25px;
-    }
 
-    .sortable li{
-        margin-bottom: 10px;
-        
-    }
+<head>
+    <style>
+        .innertext {
+            cursor: text;
+        }
 
-    .sortable li div {
-        
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        cursor: move;
-        border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-        margin: 0;
-        padding: 3px;
-    }
-    
-    li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
-        border-color: #999;
-    }
-    .contentContainer{
-        background: inherit;
-        border: 1px solid #d4d4d4;
-        display: inline-block;
-        
-    }
-    .disclose, .expandEditor {
-        cursor: pointer;
-        width: 20px;
-        display: none;
-    }
-    
-    .sortable li.mjs-nestedSortable-collapsed > ol {
-        display: none;
-    }
-    
-    .sortable li.mjs-nestedSortable-branch > div > .disclose {
-        display: inline-block;
-    }
-    
-    .sortable span.ui-icon {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-    }
-    
-    
-    
-    .menuEdit {
-        background: #FFF;
-    }
-    
-    input.itemTitle {
-        vertical-align: middle;
-        cursor: text;
-        width: 100%;
-        border-style: none!important;
-        font-size: 20px;
-        background-color: inherit;
-        
-    }
-    
-    .deleteMenu {
-        float: right;
-        cursor: pointer;
-    }
-            
-    p,ol,ul,pre,form {
-        margin-top: 0;
-        margin-bottom: 1em;
-    }
-    
-    
-    dd {
-        margin: 0;
-        padding: 0 0 0 1.5em;
-    }
-    
-    code {
-        background: #e5e5e5;
-    }
-    
-    
-    .notice {
-        color: #c33;
-    }
-.menuContainer {
-    display: flex;
-    width: 100%;
-    
-}
+        .placeholder {
+            outline: 1px dashed #4183C4;
+        }
 
-span.dragHandle {
-    display: inline-block;
-  
-}
+        .mjs-nestedSortable-error {
+            background: #fbe3e4;
+            border-color: transparent;
+        }
 
-.parentContainer {  
-    display: flex;
-    flex-direction: row;
-}
+        #tree {
+            width: 550px;
+            margin: 0;
+        }
 
-.dragContainer {  
-    position: relative;
-    flex-grow: 1;
-}
+        ol.sortable,
+        ol.sortable ol {
+            list-style-type: none;
+            max-width: 850px;
+            padding-left: 25px;
+        }
 
-.dragHandle {    
-   top: 50%;
-   position: absolute;
-   margin: 0;
-   left: 50%;
-   transform: translate(-50%, -50%);
-}
+        .sortable li {
+            margin-bottom: 10px;
+        }
 
-.contentContainer {
-   flex-grow: 5;
-}
-.invisible {  
-    display: none;
-}
+        .sortable li div {
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            cursor: move;
+            border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+            margin: 0;
+            padding: 3px;
+        }
 
-</style>
+        li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+            border-color: #999;
+        }
 
+        .contentContainer {
+            background: inherit;
+            border: 1px solid #d4d4d4;
+            display: inline-block;
+        }
 
+        .disclose,
+        .expandEditor {
+            cursor: pointer;
+            width: 20px;
+            display: none;
+        }
 
-<title>Title</title>    
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-<script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>
-<script src = "https://dd7tel2830j4w.cloudfront.net/f1669745613980x373279450817322500/jquery.mjs.nestedSortable.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<!-- Main Quill library -->
+        .sortable li.mjs-nestedSortable-collapsed>ol {
+            display: none;
+        }
 
-<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+        .sortable li.mjs-nestedSortable-branch>div>.disclose {
+            display: inline-block;
+        }
 
-<!-- Theme included stylesheets -->
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+        .sortable span.ui-icon {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menuEdit {
+            background: #FFF;
+        }
+
+        input.itemTitle {
+            vertical-align: middle;
+            cursor: text;
+            width: 100%;
+            border-style: none !important;
+            font-size: 20px;
+            background-color: inherit;
+        }
+
+        .deleteMenu {
+            float: right;
+            cursor: pointer;
+        }
+
+        p,
+        ol,
+        ul,
+        pre,
+        form {
+            margin-top: 0;
+            margin-bottom: 1em;
+        }
+
+        dd {
+            margin: 0;
+            padding: 0 0 0 1.5em;
+        }
+
+        code {
+            background: #e5e5e5;
+        }
+
+        .notice {
+            color: #c33;
+        }
+
+        .menuContainer {
+            display: flex;
+            width: 100%;
+        }
+
+        span.dragHandle {
+            display: inline-block;
+        }
+
+        .parentContainer {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dragContainer {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .dragHandle {
+            top: 50%;
+            position: absolute;
+            margin: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .contentContainer {
+            flex-grow: 5;
+        }
+
+        .invisible {
+            display: none;
+        }
+        .div-image {    -webkit-text-size-adjust: 100%;
+    --font_default: Lato;
+    --color_primary_default: rgba(2, 5, 211, 1);
+    --color_primary_default_rgb: 2,5,211;
+    --color_primary_contrast_default: rgba(255, 255, 255, 1);
+    --color_primary_contrast_default_rgb: 255,255,255;
+    --color_text_default: rgba(9, 23, 71, 1);
+    --color_text_default_rgb: 9,23,71;
+    --color_surface_default: rgba(255, 255, 255, 1);
+    --color_surface_default_rgb: 255,255,255;
+    --color_background_default: rgba(255, 255, 255, 0);
+    --color_background_default_rgb: 255,255,255;
+    --color_destructive_default: rgba(255, 0, 0, 1);
+    --color_destructive_default_rgb: 255,0,0;
+    --color_success_default: rgba(23, 219, 78, 1);
+    --color_success_default_rgb: 23,219,78;
+    --color_alert_default: rgba(250, 181, 21, 1);
+    --color_alert_default_rgb: 250,181,21;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    pointer-events: auto;
+    overflow: visible;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    border-radius: 0px;
+    width: 132px;
+    left: 0px;
+    height: 117px;
+    background-color: rgba(255, 255, 255, 0);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1");
+        }
+
+        .image {
+
+            height: 117px;
+            width: 132px;
+        }
+
+        .div-text {
+            -webkit-text-size-adjust: 100%;
+            --font_default: Lato;
+            --color_primary_default: rgba(2, 5, 211, 1);
+            --color_primary_default_rgb: 2, 5, 211;
+            --color_primary_contrast_default: rgba(255, 255, 255, 1);
+            --color_primary_contrast_default_rgb: 255, 255, 255;
+            --color_text_default: rgba(9, 23, 71, 1);
+            --color_text_default_rgb: 9, 23, 71;
+            --color_surface_default: rgba(255, 255, 255, 1);
+            --color_surface_default_rgb: 255, 255, 255;
+            --color_background_default: rgba(255, 255, 255, 0);
+            --color_background_default_rgb: 255, 255, 255;
+            --color_destructive_default: rgba(255, 0, 0, 1);
+            --color_destructive_default_rgb: 255, 0, 0;
+            --color_success_default: rgba(23, 219, 78, 1);
+            --color_success_default_rgb: 23, 219, 78;
+            --color_alert_default: rgba(250, 181, 21, 1);
+            --color_alert_default_rgb: 250, 181, 21;
+            overflow-wrap: break-word;
+            pointer-events: auto;
+            white-space: pre-wrap;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: inherit;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    .container {
+        -webkit-text-size-adjust: 100%;
+    --font_default: Lato;
+    --color_primary_default: rgba(2, 5, 211, 1);
+    --color_primary_default_rgb: 2,5,211;
+    --color_primary_contrast_default: rgba(255, 255, 255, 1);
+    --color_primary_contrast_default_rgb: 255,255,255;
+    --color_text_default: rgba(9, 23, 71, 1);
+    --color_text_default_rgb: 9,23,71;
+    --color_surface_default: rgba(255, 255, 255, 1);
+    --color_surface_default_rgb: 255,255,255;
+    --color_background_default: rgba(255, 255, 255, 0);
+    --color_background_default_rgb: 255,255,255;
+    --color_destructive_default: rgba(255, 0, 0, 1);
+    --color_destructive_default_rgb: 255,0,0;
+    --color_success_default: rgba(23, 219, 78, 1);
+    --color_success_default_rgb: 23,219,78;
+    --color_alert_default: rgba(250, 181, 21, 1);
+    --color_alert_default_rgb: 250,181,21;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    pointer-events: auto;
+    overflow: visible;
+    box-sizing: border-box;
+    width: 700px;
+    left: 0px;
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 0px;
+    height: 133px;
+    }
+    .slider {
+      width: 80%;
+      margin: auto;
+    }
+    .slider img {
+      max-width: 100%;
+      height: auto;
+    }
+    .slick-prev:before, .slick-next:before {
+      color: black !important;
+    }
+    </style>
+    <title>Title</title>
+    <!--Owl Carousel - must be before anyJS-->
+    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
+    <!--slick carousel-->
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <!--basics-->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+        integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+    <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>
+    <script src="https://dd7tel2830j4w.cloudfront.net/f1669745613980x373279450817322500/jquery.mjs.nestedSortable.js">
+    </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Main Quill library -->
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 </head>
+
 <body>
- <div id="cardstack"></div>
- <script type="module" src="initialize.js">
-</script>
+    <div id="cardstack"></div>
+    <div id="myslider" class="slider responsive container">
+            <div>
+                <div class="image">
+                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
+                </div>
+            </div>
+            <div>
+                <div class="image">
+                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
+                </div>
+            </div>
+            <div>
+                <div class="image">
+                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
+                </div>
+            </div>
+            <div>
+                <div class="div-text">
+                    fdsafda</div>
+            </div>
+            <div>
+                <div class="image">
+                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
+                </div>
+            </div>
+            <div>
+                <div class="image">
+                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="module" src="initialize.js"></script>
+    <script>
+$('.responsive').slick({
+      dots: true,
+      arrows: true,
+      prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+      nextArrow: '<button type="button" class="slick-next">Next</button>',
+      centerMode: true,
+      centerPadding: '60px',
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '20px',
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+    </script>
 </body>
+
 </html>
