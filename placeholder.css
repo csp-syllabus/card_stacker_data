@@ -1,9 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <style>
-        .innertext {
+<style type="text/css">
+    	.innertext{
+        	cursor:text;    
+    	}
+		
+		.placeholder {
+			outline: 1px dashed #4183C4;
+		}    
+		
+		.mjs-nestedSortable-error {
+			background: #fbe3e4;
+			border-color: transparent;
+		}
+		
+		#tree {
+			width: 550px;
+			margin: 0;
+		}
+				
+		ol.sortable,ol.sortable ol {
+			list-style-type: none;
+            max-width: 850px;
+			padding-left: 25px;
+		}
+    
+    	.sortable li{
+            margin-bottom: 10px;
+            
+    	}
+    
+		.sortable li div {
+			
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			cursor: move;
+			border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+			margin: 0;
+			padding: 3px;
+		}
+		
+		li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+			border-color: #999;
+		}
+		.contentContainer{
+            background: inherit;
+            border: 1px solid #d4d4d4;
+            display: inline-block;
+            
+    	}
+		.disclose, .expandEditor {
+			cursor: pointer;
+			width: 20px;
+			display: none;
+		}
+		
+		.sortable li.mjs-nestedSortable-collapsed > ol {
+			display: none;
+		}
+		
+		.sortable li.mjs-nestedSortable-branch > div > .disclose {
+			display: inline-block;
+		}
+		
+		.sortable span.ui-icon {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+		}
+		
+		
+		
+		.menuEdit {
+			background: #FFF;
+		}
+		
+		input.itemTitle {
+			vertical-align: middle;
+			cursor: text;
+            width: 100%;
+			border-style: none!important;
+            font-size: 20px;
+			background-color: inherit;
+            
+		}
+		
+		.deleteMenu {
+			float: right;
+			cursor: pointer;
+		}
+				
+		p,ol,ul,pre,form {
+			margin-top: 0;
+			margin-bottom: 1em;
+		}
+		
+		
+		dd {
+			margin: 0;
+			padding: 0 0 0 1.5em;
+		}
+		
+		code {
+			background: #e5e5e5;
+		}
+		
+		
+		.notice {
+			color: #c33;
+		}
+    .menuContainer {
+        display: flex;
+        width: 100%;
+        
+    }
+    
+    span.dragHandle {
+        display: inline-block;
+      
+    }
+    
+    .parentContainer {  
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .dragContainer {  
+        position: relative;
+        flex-grow: 1;
+    }
+    
+   .dragHandle {    
+       top: 50%;
+       position: absolute;
+       margin: 0;
+       left: 50%;
+       transform: translate(-50%, -50%);
+    }
+    
+    .contentContainer {
+       flex-grow: 5;
+    }
+    
+            .innertext {
             cursor: text;
         }
 
@@ -38,8 +176,9 @@
             border-radius: 3px;
             cursor: move;
             border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-            margin: 0;
-            padding: 3px;
+  margin: auto;
+    padding: 3px;
+    max-width: 100% !important;
         }
 
         li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
@@ -226,6 +365,7 @@
             box-sizing: inherit;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            max-width: 100px;
         }
     .container {
         -webkit-text-size-adjust: 100%;
@@ -265,104 +405,90 @@
     border-radius: 0px;
     height: 133px;
     }
-    .slider {
-      width: 80%;
-      margin: auto;
-    }
-    .slider img {
-      max-width: 100%;
-      height: auto;
-    }
+
     .slick-prev:before, .slick-next:before {
       color: black !important;
     }
-    .screenshot_clip {
-       background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
-    }
+    
+
+.slider img {
+  display: inline-block; /* display the slider items as inline-block elements */
+  vertical-align: top; /* align the items to the top of the container */
+  max-height: 100%; /* prevent the items from overflowing vertically */
+  height: auto;
+  max-width: 100px;
+}
+    
+.slick-slide {
+  width: 200px; /* set the width to 200px */
+  height: 150px; /* set the height to 150px */
+}
+.slick-dotted.slick-slider {
+    margin-bottom: 30px;
+    width: auto;
+    
+    .slick-next:before, .slick-prev:before {
+    font-family: slick;
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #fff !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+    
+  
+</style>
+<!--flickety styles -->
+    <style>
+      /* Style the carousel cells */
+      .carousel-cell {
+        width: 150px;
+        height: 150px;
+        margin-right: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      /* Style the carousel images */
+      .carousel-img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .carousel-img:hover {
+        transform: scale(1.5);
+      }
+      
+      /* Style the carousel text */
+      .carousel-text {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+          color:black;
+      }
     </style>
-    <title>Title</title>
-    <!--Owl Carousel - must be before anyJS-->
-    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
-    <!--slick carousel-->
-    <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-    <!--basics-->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
-        integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-    <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>
-    <script src="https://dd7tel2830j4w.cloudfront.net/f1669745613980x373279450817322500/jquery.mjs.nestedSortable.js">
-    </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- Main Quill library -->
-    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <!-- Theme included stylesheets -->
-    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
-</head>
 
-<body>
-    <div id="cardstack"></div>
-<!--  <div id="myslider" class="slider responsive container">
-            <div>
-                <div class="image">
-                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
-                </div>
-            </div>
-            <div>
-                <div class="image">
-                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
-                </div>
-            </div>
-            <div>
-                <div class="image">
-                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
-                </div>
-            </div>
-            <div>
-                <div class="div-text">
-                    fdsafda</div>
-            </div>
-            <div>
-                <div class="image">
-                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
-                </div>
-            </div>
-            <div>
-                <div class="image">
-                    <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
-                </div>
-            </div>
-        </div>
-        -->  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script type="module" src="initialize.js"></script>
-    <script>
-            var generateListItemHtml = (attributeplansnippet) => {
-                //generate a div that contains the menu section, and all elements within it are divs in a flex group. Stlying is applied via the add to header section of the plugin editor
-                let newListElement = '<li id="menuItem_' + attributeplansnippet.get("_id") +
-                    '" style="display: list-item;" class="mjs-nestedSortable-leaf" data-foo="bar"><div class = "parentContainer highlightable highlight-' +
-                    attributeplansnippet.get("attribute_id_text") + '" id="' + attributeplansnippet.get("attribute_id_text") +
-                    '"><div class = "dragContainer"><span class="dragHandle material-icons">drag_indicator</span></div><div class="contentContainer">'+
-                    '<div class ="menuContainer"><span title="Click to show/hide children" class="disclose ui-icon ui-icon-minusthick"><span></span></span><span title="Click to show/hide description" data-id="' +
-                    attributeplansnippet.get("_id") +
-                    '" class = "expandEditor material-icons" >expand_more</span><input  type="text" class = "itemTitle" data-id="' +
-                    attributeplansnippet.get("_id") + '"value="' + attributeplansnippet.get("attribute_name_text") +
-                    '"><span class="deleteMenu material-icons" title="Click to delete item." data-id="' + attributeplansnippet
-                    .get("_id") + '">close</span></div>' + 
-                    
-                    '<div class = "quillContainer" id="' + attributeplansnippet.get(
-                        "_id") + '"><div class="quillEditor" id="' + attributeplansnippet.get("_id") + '"></div></div>' +
-                    `<div id="slider-aps-${attributeplansnippet.get("_id")}"></div>` + '</div></div></li>';
-                console.log("newListElement", newListElement);
-                //"attribute_id_text"
-                return newListElement;
-            }
-    </script>
-</body>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//dd7tel2830j4w.cloudfront.net/f1669647901984x476989271686958140/JQuery-UI.css"/>
+<script src = "https://dd7tel2830j4w.cloudfront.net/f1669647739015x578154305853939600/jquery.mjs.nestedSortable.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- Main Quill library -->
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-</html>
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
+
+<!-- Slider -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<!-- Flickety slider -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.pkgd.min.js"></script>

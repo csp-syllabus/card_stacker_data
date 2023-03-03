@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sprites Example</title>
+  <style>
+    .h2 {
+		color: black;
+		font-size: 20px;
+		margin: 0;
+		padding: 10px;
+	}
+    .crop-das-1677864692397x615969592250589400 {  
+        background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
+    width: 159px;
+    height: 59px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: -324px -5px;
+    }
+</style>
+<style>
+    .crop-das2-1677864692397x615969592250589400 {  background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
+    width: 211px;
+    height: 79px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: -428px -7px;
+    }
+</style>
+<style>
+    .crop-das3-1677864692397x615969592250589400 {  background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
+    width: 311px;
+    height: 104px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: -668px -7px;
+    }
+</style>
+<style>
+    .crop-das4-1677864692397x615969592250589400 {  background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
+    width: 311px;
+    height: 104px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: -668px -7px;
+    }
+</style>
+<style>
+		.container {background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
+    width: 311px;
+    height: 104px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: -668px -7px;
+		}
+</style>
+</head>
+<body>
+
+    <div class="h2">As cropped - Initial Scale 1.32</div>
+</br>
+<img src="image.png" alt="Image Description">
+</br>
+
+    <div class="h2">Adjusted with Initial Scale--divided by Initial Scale width: 159px; height: 59px; background-position: -324px -5px;</div>
+</br>
+
+<div class="carousel-cell crop-das-1677864692397x615969592250589400" id="1677864692397x615969592250589400"></div>
+</br>
+</br>
+<div class="h2">Not Adjusted with Initial Scale width: 211px;height: 79px; background-position: -428px -7px;</div>
+</br>
+<div class="carousel-cell crop-das2-1677864692397x615969592250589400" id="1677864692397x615969592250589400"></div>
+</br>
+<div class="h2">Adjusted to fit manual width: 311px; height: 104px; background-position: -668px -7px;</div>
+</br>
+<div class="carousel-cell crop-das3-1677864692397x615969592250589400" id="1677864692397x615969592250589400"></div>
+
+<div class="h2">Playground</div>
+
+<label for="width-input">Width:</label>
+<input id="width-input" type="number" value="400">
+<label for="height-input">Height:</label>
+<input id="height-input" type="number" value="200">
+<label for="background-position-x-input">Background Position X:</label>
+<input id="background-position-x-input" type="number" value="-100">
+<label for="background-position-y-input">Background Position Y:</label>
+<input id="background-position-y-input" type="number" value="-50"></br>
+<label for="initialScale">Initial Scale:</label>
+<input id="initialScale" type="number" value="1">
+</br></br>
+    <div class="carousel-cell crop-das4-1677864692397x615969592250589400" id="container"></div>
+
+</body>
+<script>
+    const widthInput = document.getElementById('width-input');
+    const initialScale = document.getElementById('initialScale');
+    const heightInput = document.getElementById('height-input');
+    const backgroundPositionXInput = document.getElementById('background-position-x-input');
+    const backgroundPositionYInput = document.getElementById('background-position-y-input');
+    const image = document.getElementById('image');
+    const container = document.getElementById('container');
+    
+    initialScale.addEventListener('input', () => {
+        const value1 = widthInput.value/initialScale.value;
+        container.style.width = `${value1}px`;
+        const value2 = heightInput.value/initialScale.value;
+        container.style.height = `${value2}px`;
+        const value4 = backgroundPositionYInput.value/initialScale.value;
+        container.style.backgroundPositionY = `${value4}px`;
+        const value3 = backgroundPositionXInput.value/initialScale.value;
+        container.style.backgroundPositionX = `${value3}px`;
+    });
+    widthInput.addEventListener('input', () => {
+        const value1 = widthInput.value/initialScale.value;
+        container.style.width = `${value1}px`;
+    });
+    
+    heightInput.addEventListener('input', () => {
+        const value2 = heightInput.value/initialScale.value;
+        container.style.height = `${value2}px`;
+    });
+    
+    backgroundPositionXInput.addEventListener('input', () => {
+        const value3 = backgroundPositionXInput.value/initialScale.value;
+        container.style.backgroundPositionX = `${value3}px`;
+    });
+    
+    backgroundPositionYInput.addEventListener('input', () => {
+        const value4 = backgroundPositionYInput.value/initialScale.value;
+        container.style.backgroundPositionY = `${value4}px`;
+    });
+</script>
+</html>

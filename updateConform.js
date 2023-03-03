@@ -1,59 +1,38 @@
-//initialize variables
-  var isBubble = false;
-  var randomElementID = `ddt-${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}`
-  if (!isBubble) {
-  var instance = {};
-  instance.data = {};
-  instance.data.listcount = 0;
-  instance.triggerEvent;
-  instance.publishState;
-  instance.data.isBubble = isBubble;
-  instance.data.randomElementID = randomElementID;
-  var properties = {};
-  properties.data_source = [];
-  instance.data.mainElement = $('#cardstack');
-  instance.data.mainElement.append(`<div id="temp" class="invisible"></div>`);
-  instance.data.temp = $('#temp');
-  console.log("instance canvas",instance.data.mainElement);
-  } else {
-  instance.canvas.append(`<div id="cardstack${instance.data.randomElementID}"></div> <div id="temp${instance.data.randomElementID}" class="invisible"></div>`);
-  instance.data.mainElement = $(`#cardstack${instance.data.randomElementID}`);
-  instance.data.temp = $(`#temp${instance.data.randomElementID}`);
-  instance.data.isBubble = isBubble;
-  }
-  ///end CSP initialize
-      instance.data.listcount = 0;
-         
-          instance.data.handleTypingChange = (content, id) => {
-            // When the typing has stopped, trigger the "stopped_typing" event and update the Quill contents
-            instance.triggerEvent('stopped_typing');
-            instance.data.typingTimeout = null;
-  
-            // Expose Delta as state
-            instance.publishState('delta', content);
-            instance.publishState('editedcard_id', id);
-            instance.publishState('htmlobject', instance.canvas.html());
-            instance.triggerEvent('relocated');
-          };
-  
-          instance.data.handleStopTyping = (content, id) => {
-            // Clear the timeout and set a new one to handle the typing change
-            clearTimeout(instance.data.typingTimeout);
-            instance.data.typingTimeout = setTimeout(() => instance.data.handleTypingChange(JSON.stringify(content), id), 250);
-          };
-      
-  //end initialize
- 
-  
+function(instance, properties, context) {
+
   //start update
   function addSlider(aps) {
     if (instance.data.isBubble) {
-        console.log("start addslider");
+        console.log("start addslider",aps);
         aps.forEach((aps) => {
-            var slider = document.createElement(`slider-container-aps-${aps._id}`);
-            slider.classList.add('slider', 'responsive', 'container');
+        console.log("slider-create",aps._id);
+        var mainElement = $(`#slider-aps-${aps._id}`);
+        mainElement.addClass('carousel');
+        console.log("mainElement",mainElement);
+         //   slider.classList.add('carousel', `slider-buttons-aps-${aps._id}`);
+      ///new
+    var carousel = document.createElement('div');
+    carousel.id = aps._id;
+    carousel.classList.add('carousel');
+    console.log("carousel",carousel);
+    mainElement.append(carousel);
+    console.log("mainElement-after carousel",mainElement);
+    var slider = new Flickity('#' + aps._id, {
+      wrapAround: true,
+      prevNextButtons: true,
+      pageDots: false
+    });
             
-
+          ///new done  
+            /*old
+            var slider = new Flickity(`#slider-aps-${aps._id}`, {
+        wrapAround: true,
+        prevNextButtons: true,
+        pageDots: false
+      });
+      slider.classList.add(`slider-buttons-aps-${aps._id}`);
+      slider.setAttribute('id',`slider-buttons-aps-${aps._id}`);
+            */
             let textDastoas = [];
             let imageDastoas = [];
             if (aps.DASTOAS) {
@@ -63,23 +42,39 @@
             // iterate through textDastoas
             if (textDastoas) {
                 textDastoas.forEach((dastoas) => {
+                    var newElement = document.createElement('div');
+    				newElement.classList.add('carousel-cell');
+                     newElement.innerHTML =
+                        `<div class="div-text carousel-text">${dastoas.text_snippet__text}</div>`;
+                     slider.appendChild(newElement);
+                     /* OLD
                     const newElement = document.createElement('div');
                     newElement.innerHTML =
-                        `<div class="div-text">${dastoas.text_snippet__text}</div>`;
+                        `<div class="div-text" width="100px">${dastoas.text_snippet__text}</div>`;
                     slider.appendChild(newElement);
+                    */
                 });
             }
             // iterate through imageDastoas
             if (imageDastoas) {
                 imageDastoas.forEach((dastoas) => {
-                    const newElement = document.createElement('div');
-                    newElement.innerHTML = `<div class="image screenshot-${dastoas.webpage}"><img class=""/></div>`;
+                    var newElement = document.createElement('div');
+    				newElement.classList.add('carousel-cell');
+                    newElement.innerHTML = `<div class="image"><img class="carousel-img image screenshot-container-${dastoas.webpage} crop-das-${dastoas._id}"/></div>`;
                     slider.appendChild(newElement);
+                    /* OLD
+                    const newElement = document.createElement('div');
+                    //newElement.innerHTML = `<div class="image screenshot-${dastoas.webpage}" width="100px"><img src="${dastoas.webpage_screenshot_custom_webpage_screenshot}" class=""/></div>`;
+				newElement.innerHTML = `<div class="image" width="100px"><img class="image screenshot-container-${dastoas.webpage} crop-das-${dastoas._id}"/></div>`;
+                    slider.appendChild(newElement);
+                    */
 ///add to css NEEDED
                 });
             }
-            $(`#slider-aps-${aps._id}`).append(slider);
-            console.log("slider",slider);
+
+            //mainElement.append(slider);
+            
+            console.log("mainElement-after,slider ",mainElement,slider);
 
         })
     }
@@ -136,7 +131,8 @@
     newItem['webpage'] = value['account_webpage_custom_account_webpage'].get('_id');
     newItem['attribute_id'] = value['attribute_custom_attribute'].get('_id');
     newItem['attribute_name'] = value['attribute_custom_attribute'].get('name_text');
-    newItem['webpage_screenshot_custom_webpage_screenshot'] = value['attribute_custom_attribute'].get('webpage_screenshot_custom_webpage_screenshot');
+    //newItem['webpage_screenshot_custom_webpage_screenshot'] = value['attribute_custom_attribute'].get('webpage_screenshot_custom_webpage_screenshot');
+      newItem['webpage_screenshot_custom_webpage_screenshot'] = 'https://via.placeholder.com/150';
     instance.data.DASTOAS.push(newItem);
   });
   //could be combined with above
@@ -646,4 +642,77 @@ instance.data.APS.forEach((aps) => {
   
 
 }
-  //end update
+
+    $('.responsive').slick({
+      dots: true,
+      arrows: true,
+      prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+      nextArrow: '<button type="button" class="slick-next">Next</button>',
+      centerMode: true,
+      centerPadding: '60px',
+        infinite: true,
+        draggable: false,
+  slidesToShow: 2,
+  slidesToScroll: 1
+    });
+//makes buttons specific to parent slider
+instance.data.APS.forEach((aps) => {
+    $(`.slider-buttons-aps-${aps._id}`).slick({
+        prevArrow: $(`.slider-buttons-aps-${aps._id}`).parent().find('.slick-prev'),
+        nextArrow: $(`.slider-buttons-aps-${aps._id}`).parent().find('.slick-next')
+    });
+});
+  //end update   
+    /*flickety
+      var data = [
+        {
+          type: 'image',
+          src: 'https://source.unsplash.com/150x150/?nature'
+        },
+        {
+          type: 'text',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        },
+        {
+          type: 'image',
+          src: 'https://source.unsplash.com/150x150/?city'
+        },
+        {
+          type: 'text',
+          text: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        },
+        {
+          type: 'image',
+          src: 'https://source.unsplash.com/150x150/?food'
+        },
+        {
+          type: 'text',
+          text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+        }
+      ];
+      
+      var flkty = new Flickity('.carousel', {
+        wrapAround: true,
+        prevNextButtons: true,
+        pageDots: false
+      });
+
+    for (var i = 0; i < data.length; i++) {
+    var cell = document.createElement('div');
+    cell.classList.add('carousel-cell');
+    if (data[i].type === 'image') {
+      var img = document.createElement('img');
+      img.src = data[i].src;
+      img.alt = '';
+      img.classList.add('carousel-img');
+      cell.appendChild(img);
+    } else if (data[i].type === 'text') {
+      var text = document.createElement('div');
+      text.innerHTML = data[i].text;
+      text.classList.add('carousel-text');
+      cell.appendChild(text);
+    }
+    flkty.append(cell);
+  }
+    */
+}
