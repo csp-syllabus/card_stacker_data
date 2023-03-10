@@ -2,8 +2,150 @@
 <html lang="en">
 
 <head>
-    <style>
-        .innertext {
+    <style type="text/css">
+    	.innertext{
+        	cursor:text;    
+    	}
+		
+		.placeholder {
+			outline: 1px dashed #4183C4;
+		}    
+		
+		.mjs-nestedSortable-error {
+			background: #fbe3e4;
+			border-color: transparent;
+		}
+		
+		#tree {
+			width: 550px;
+			margin: 0;
+		}
+				
+		ol.sortable,ol.sortable ol {
+			list-style-type: none;
+            max-width: 850px;
+			padding-left: 25px;
+		}
+    
+    	.sortable li{
+            margin-bottom: 10px;
+            
+    	}
+    
+		.sortable li div {
+			
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			cursor: move;
+			border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+			margin: 0;
+			padding: 3px;
+		}
+		
+		li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+			border-color: #999;
+		}
+		.contentContainer{
+            background: inherit;
+            border: 1px solid #d4d4d4;
+            display: inline-block;
+            
+    	}
+		.disclose, .expandEditor {
+			cursor: pointer;
+			width: 20px;
+			display: none;
+		}
+		
+		.sortable li.mjs-nestedSortable-collapsed > ol {
+			display: none;
+		}
+		
+		.sortable li.mjs-nestedSortable-branch > div > .disclose {
+			display: inline-block;
+		}
+		
+		.sortable span.ui-icon {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+		}
+		
+		
+		
+		.menuEdit {
+			background: #FFF;
+		}
+		
+		input.itemTitle {
+			vertical-align: middle;
+			cursor: text;
+            width: 100%;
+			border-style: none!important;
+            font-size: 20px;
+			background-color: inherit;
+            
+		}
+		
+		.deleteMenu {
+			float: right;
+			cursor: pointer;
+		}
+				
+		p,ol,ul,pre,form {
+			margin-top: 0;
+			margin-bottom: 1em;
+		}
+		
+		
+		dd {
+			margin: 0;
+			padding: 0 0 0 1.5em;
+		}
+		
+		code {
+			background: #e5e5e5;
+		}
+		
+		
+		.notice {
+			color: #c33;
+		}
+    .menuContainer {
+        display: flex;
+        width: 100%;
+        
+    }
+    
+    span.dragHandle {
+        display: inline-block;
+      
+    }
+    
+    .parentContainer {  
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .dragContainer {  
+        position: relative;
+        flex-grow: 1;
+    }
+    
+   .dragHandle {    
+       top: 50%;
+       position: absolute;
+       margin: 0;
+       left: 50%;
+       transform: translate(-50%, -50%);
+    }
+    
+    .contentContainer {
+       flex-grow: 5;
+    }
+    
+            .innertext {
             cursor: text;
         }
 
@@ -38,8 +180,9 @@
             border-radius: 3px;
             cursor: move;
             border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-            margin: 0;
-            padding: 3px;
+  margin: auto;
+    padding: 3px;
+    max-width: 100% !important;
         }
 
         li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
@@ -226,6 +369,7 @@
             box-sizing: inherit;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            max-width: 100px;
         }
     .container {
         -webkit-text-size-adjust: 100%;
@@ -265,44 +409,179 @@
     border-radius: 0px;
     height: 133px;
     }
-    .slider {
-      width: 80%;
-      margin: auto;
-    }
-    .slider img {
-      max-width: 100%;
-      height: auto;
-    }
+
     .slick-prev:before, .slick-next:before {
       color: black !important;
     }
-    .screenshot_clip {
-       background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3');
-    }
+    
+
+.slider img {
+  display: inline-block; /* display the slider items as inline-block elements */
+  vertical-align: top; /* align the items to the top of the container */
+  max-height: 100%; /* prevent the items from overflowing vertically */
+  height: auto;
+  max-width: 100px;
+}
+    
+.slick-slide {
+  width: 200px; /* set the width to 200px */
+  height: 150px; /* set the height to 150px */
+}
+.slick-dotted.slick-slider {
+    margin-bottom: 30px;
+    width: auto;
+}
+    .slick-next:before, .slick-prev:before {
+    font-family: slick;
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #fff !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+    
+  
+</style>
+<!--flickety styles -->
+    <style>
+      /* Style the carousel cells */
+      .carousel-cell {
+        width: 150px;
+        height: 150px;
+        margin-right: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      /* Style the carousel images */
+      .carousel-img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .carousel-img:hover {
+        transform: scale(1.5);
+      }
+      
+      /* Style the carousel text */
+      .carousel-text {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+          color:black;
+      }
+        .slider_invisible
+        {
+        display:none;
+        }
+        
     </style>
-    <title>Title</title>
-    <!--Owl Carousel - must be before anyJS-->
-    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
-    <!--slick carousel-->
-    <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-    <!--basics-->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
-        integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-    <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>
-    <script src="https://dd7tel2830j4w.cloudfront.net/f1669745613980x373279450817322500/jquery.mjs.nestedSortable.js">
-    </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- Main Quill library -->
-    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <!-- Theme included stylesheets -->
-    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+<style>
+
+    .crop-das-1677796449210x814193721751619700 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464987090x977478393381118200/62d7e26b46e1cc208a803cdc9c9d20a0139770c328e319cb560ce3d1c49c9dd6?w=1000');
+    width: 220.338983050847px;
+        height: 122.41054613936px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -779.661016949153px -2339.51271186441px;
+    }
+     
+    .crop-das-1677797110465x856521480885834100 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3?w=1000');
+    width: 111.393483709273px;
+        height: 87.0751879699248px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -280.83709273183px -561.894815162907px;
+    }
+     
+    .crop-das-1677798750072x378326911298522560 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3?w=1000');
+    width: 169.422018348624px;
+        height: 137.834862385321px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -51.6880733944954px -535.263806330919px;
+    }
+     
+    .crop-das-1677798945350x174076749428538460 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3?w=1000');
+    width: 624.126185663194px;
+        height: 239.754370571118px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -3.54947020014657px -589.508095899882px;
+    }
+     
+    .crop-das-1677801752030x790632340662359000 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3?w=1000');
+    width: 193.256658595642px;
+        height: 93.9757869249395px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -0px -3.24462772397094px;
+    }
+     
+    .crop-das-1677864616944x142352534168398430 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464987090x977478393381118200/62d7e26b46e1cc208a803cdc9c9d20a0139770c328e319cb560ce3d1c49c9dd6?w=1000');
+    width: 652.503793626707px;
+        height: 368.740515933232px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -66.7678300455235px -3554.55555527641px;
+    }
+     
+    .crop-das-1678128737839x526196737749039550 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678127723545x966637157294747900/c32c91ac4a1c56e0c12fab8981c18de903a8b5173d3bb3caf7c8194de9379389?w=1000');
+    width: 118.012422360248px;
+        height: 84.8861283643892px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -635.610766045549px -319.422877846791px;
+    }
+     
+    .crop-das-1678132388186x642567821249437200 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1677018716963x491555617461404860/b94517185c45d530e5577af0f2d683a63a537b1665425b4afea643447700fd5b?w=1000');
+    width: 258.79917184265px;
+        height: 171.84265010352px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -449.275362318841px -696.234472049689px;
+    }
+     
+    .crop-das-1678312391819x339217432864234560 {
+      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3?w=1000');
+    width: 197.770234986945px;
+        height: 183.060052219321px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: -384.099216710183px -703.279536553525px;
+    }
+    
+    </style>
+    
+ <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//dd7tel2830j4w.cloudfront.net/f1669647901984x476989271686958140/JQuery-UI.css"/>
+<script src = "https://dd7tel2830j4w.cloudfront.net/f1669647739015x578154305853939600/jquery.mjs.nestedSortable.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- Main Quill library -->
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
+
+<!-- Flickety slider -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.pkgd.min.js"></script>
+
 </head>
 
 <body>
