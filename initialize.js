@@ -291,7 +291,7 @@
              var mainElement = $(`#slider-aps-${aps._id}`);
              //instance.data.mainElement = mainElement;
              //console.log("mainELement", mainElement);
-             if (!mainElement.length === 0) {
+             if (mainElement.length != 0) {
                  mainElement.addClass('carousel');
                  //instance.data.logging ? console.log("mainElement", mainElement):null;
                  //   slider.classList.add('carousel', `slider-buttons-aps-${aps._id}`);
@@ -737,7 +737,7 @@
         //////////Experimental Data grab from API
         if (!instance.data.isBubble) {
             instance.data.logging ? console.log("!isBubble") : null;
-            var planId = '1676060419773x473669207853629400';
+            var planId = '1678808469407x515207012437458940';
             //
             instance.data.getAPS = function(plan) {
                 // Create a form data object
@@ -787,8 +787,9 @@
             ///
             instance.data.data_source_length = instance.data.APS_result.length;
             instance.data.plan_unique_id = instance.data.result.Plan['_id'];
-            instance.data.hierarchyInitial = instance.data.result.Plan['JQTree HTML'];
-            instance.data.hierarchyInitial = `[{"id":"1678415203749x380697560508006400","foo":"bar"},{"id":"1678415192492x736722261622652900","foo":"bar"},{"id":"1678398093386x413274195503349760","foo":"bar"},{"id":"1678400741256x961039459617341400","foo":"bar"},{"id":"1678400899822x568186102965862400","foo":"bar"}]`;
+            instance.data.hierarchyInitial = instance.data.result.Plan['Hierarchy Content'];
+            console.log('Hier content',instance.data.hierarchyInitial);
+            //instance.data.hierarchyInitial = `[{"id":"1678415203749x380697560508006400","foo":"bar"},{"id":"1678415192492x736722261622652900","foo":"bar"},{"id":"1678398093386x413274195503349760","foo":"bar"},{"id":"1678400741256x961039459617341400","foo":"bar"},{"id":"1678400899822x568186102965862400","foo":"bar"}]`;
             instance.data.html_field = instance.data.hierarchyInitial;
             let DAS = instance.data.result['DAS'];
             let TOAS = instance.data.result['TOAS'];
@@ -829,30 +830,28 @@
             //instance.data.halt = true;
             console.log("main called", instance.data.hierarchyInitial, instance.data.start);
             window.CSP = instance;
-            // Looping through all the attribute plan snippets and creating their markup the first time when its loaded when theres no hierarchy data
-            if (!instance.data.hierarchyInitial && instance.data.start) {
-                instance.data.logging ? console.log('hierarchyContent not present. Rendering from data_source') : null;
-                let cardsListHtml = '';
-                for (let i = 0; i < instance.data.APS.length; i++) {
-                    //instance.data.logging ? console.log("attsnipgen", instance.data.APS[i]);
-                    cardsListHtml += instance.data.generateListItemHtml(instance.data.APS[i]) + '</li>';
-                    //instance.data.logging ? console.log('GenrateListHtml Called'):null;
-                    //instance.data.logging ? console.log(cardsListHtml):null;
-                };
-                let cardStackHtml = '<ol id="' + instance.data.plan_unique_id +
-                    '" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">' +
-                    cardsListHtml + "</ol>";
-                //instance.data.logging ? console.log(cardStackHtml):null;
-                instance.canvas.html(cardStackHtml)
-            } else if (instance.data.hierarchyInitial && instance.data.start) {
-                console.log("hierarchy start");
-                let cardStackHtml = '<ol id="' + instance.data.plan_unique_id +
-                    '" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">' +
-                    buildHierarchyHtml(instance.data.hierarchyInitial) + "</ol>";
-                instance.data.logging ? console.log('hierarchyContent present. BuildHierarchy HTML Called') : null;
-                instance.canvas.html(cardStackHtml);
-            }
-
+                       // Looping through all the attribute plan snippets and creating their markup the first time when its loaded when theres no hierarchy data
+                       if (!instance.data.hierarchyInitial && instance.data.start) {
+                        instance.data.logging ? console.log('hierarchyContent not present. Rendering from data_source') : null;
+                        let cardsListHtml = '';
+                        for (let i = 0; i < instance.data.APS.length; i++) {
+                            //instance.data.logging ? console.log("attsnipgen", instance.data.APS[i]);
+                            cardsListHtml += instance.data.generateListItemHtml(instance.data.APS[i]) + '</li>';
+                            //instance.data.logging ? console.log('GenrateListHtml Called'):null;
+                            //instance.data.logging ? console.log(cardsListHtml):null;
+                        };
+                        let cardStackHtml = '<ol id="' + instance.data.plan_unique_id +
+                            '" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">' +
+                            cardsListHtml + "</ol>";
+                        //instance.data.logging ? console.log(cardStackHtml):null;
+                        instance.canvas.html(cardStackHtml)
+                    } else if (instance.data.hierarchyInitial && instance.data.start) {
+                        let cardStackHtml = '<ol id="' + instance.data.plan_unique_id +
+                            '" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">' +
+                            buildHierarchyHtml(instance.data.hierarchyInitial) + "</ol>";
+                        instance.data.logging ? console.log('hierarchyContent present. BuildHierarchy HTML Called') : null;
+                        instance.canvas.html(cardStackHtml);
+                    }
 
             //CSP Add create sliders
             instance.data.logging ? console.log("sliderpoint", instance.data.APS) : null;
@@ -898,18 +897,18 @@
 
             }
 
-
+            instance.data.start = false;
         }
-        //instance.data.halt = false;
+        instance.data.halt = false;
         //Calling DeleteFoldCollapse listeners
         instance.data.logging ? console.log('Delete,Fold and Collapse Functions Called - Update') : null;
 
 
 
-       // instance.data.start = false;
+       
     }
     setTimeout(instance.data.deleteFoldCollapse, 200);
-
+   // instance.data.start = false;
     //end update
 
 //add new list item
