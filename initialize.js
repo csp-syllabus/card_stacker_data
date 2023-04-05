@@ -24,6 +24,7 @@
          instance.data.temp = $('#temp');
          instance.canvas = $('#cardstack');
          instance.data.logging ? console.log("instance canvas", instance.data.mainElement) : null;
+         instance.data.sliderEnabled = true;
      } else {
          instance.data.start = true;
          instance.data.halt = false;
@@ -214,11 +215,12 @@
          });
          //console.log("FA",JSON.stringify(finishArray));
      }
-     instance.data.addDASTOASAPI = (DAS, TOAS, DASArray, TOASArray, DASV, TOASV, APS, APSArray) => {
+     instance.data.addDASTOASAPI = (DAS, TOAS, DASArray, TOASArray, DASV, TOASV, APS, APSArray, screenshots) => {
          instance.data.logging ? console.log("Begin-DAS, TOAS, DASArray, TOASArray, DASV, TOASV, APS, APSArray", DAS,
              TOAS, DASArray, TOASArray, DASV, TOASV, APS, APSArray) : null;
          if (DAS.length != 0) {
              instance.data.dataPrepperAPI(DAS, instance.data.DASProperties, DASArray, DASV);
+
          }
          if (TOAS.length != 0) {
              instance.data.dataPrepperAPI(TOAS, instance.data.TOASProperties, TOASArray, TOASV);
@@ -227,7 +229,7 @@
          //combine TOAS and DAS
          instance.data.DASTOAS = [];
          if (DAS.length != 0) {
-             DASArray.forEach((value) => {
+             DASArray.forEach((value, index) => {
                  var newItem = {};
                  newItem['type'] = 'image';
                  instance.data.DASProperties.forEach((att) => {
@@ -241,9 +243,10 @@
                  newItem['y_coordinate_number'] = value['Y Coordinate'];
                  newItem['attribute_id'] = value['Attribute'];
                  newItem['initial_drawn_scale_number'] = value['Initial drawn scale'];
+                 newItem['snapshot'] = value['snapshot'];
                  //newItem['attribute_name'] = value['attribute_custom_attribute'].get('name_text');
                  //newItem['webpage_screenshot_custom_webpage_screenshot'] = value['attribute_custom_attribute'].get('webpage_screenshot_custom_webpage_screenshot');
-                 newItem['webpage_screenshot_custom_webpage_screenshot'] = 'https://via.placeholder.com/150';
+                 newItem['webpage_screenshot_custom_webpage_screenshot'] = 'https:'+ screenshots[index].split(",")[0];
                  instance.data.DASTOAS.push(newItem);
                  instance.data.logging ? console.log("newItemDAS", newItem) : null;
              });
@@ -290,16 +293,16 @@
              instance.data.logging ? console.log("slider-create", aps._id) : null;
              var mainElement = $(`#slider-aps-${aps._id}`);
              //instance.data.mainElement = mainElement;
-             //console.log("mainELement", mainElement);
-             if (!mainElement.length === 0) {
+             console.log("mainELement", mainElement,mainElement.length);
+             if (mainElement.length != 0) {
                  mainElement.addClass('carousel');
-                 //instance.data.logging ? console.log("mainElement", mainElement):null;
+                 console.log("mainElementL", mainElement);
                  //   slider.classList.add('carousel', `slider-buttons-aps-${aps._id}`);
                  ///new
                  var carousel = document.createElement('div');
                  carousel.id = aps._id;
                  carousel.classList.add('carousel');
-                 //instance.data.logging ? console.log("carousel", carousel):null;
+                 console.log("carousel", carousel);
                  mainElement.append(carousel);
                  //instance.data.logging ? console.log("mainElement-after carousel", mainElement):null;
                  var slider = new Flickity(`#slider-aps-${aps._id}`, {
@@ -340,8 +343,9 @@
                      imageDastoas.forEach((dastoas) => {
                          var newElement = document.createElement('div');
                          newElement.classList.add('carousel-cell');
-                         newElement.innerHTML =
-                             `<div class="image crop-das-${dastoas._id}"><img class="carousel-img image"/></div>`;
+                         //newElement.innerHTML = `<div class="image crop-das-${dastoas._id}"><img class="carousel-img image"/></div>`;
+                         console.log('addind Das', dastoas,dastoas.snapshot)
+                         newElement.innerHTML = `<div><img class="image carousel-img image" src="https:${dastoas.snapshot}"/></div>`;
                          newElement.id = dastoas._id;
                          newElement.type = 'Image';
                          //instance.data.logging ? console.log("newElement img", newElement):null;
@@ -508,12 +512,14 @@
                      $('.expandEditor[data-id=' + uniqueId + ']').html('expand_more');
                  }
                  //CSP Add for Slider
+                 if (instance.data.sliderEnabled) {
                  if ($(`#slider-aps-${uniqueId}`).hasClass('slider_invisible')) {
                      $(`#slider-aps-${uniqueId}`).removeClass('slider_invisible');
                  } else {
                      $(`#slider-aps-${uniqueId}`).addClass('slider_invisible');
                  }
                  //end CSP Add
+                 }
              });
          });
      }
@@ -590,13 +596,17 @@
 
 
 
+    
+     
+     
+     
      //////////////////////////
 
-
-
-
-         //start update
-    //instance.data.logging = properties.logging;
+    //start update
+    if (instance.data.isBubble) {
+    instance.data.logging = properties.logging;
+    instance.data.sliderEnabled = properties.slider_enabled;
+    }
 
     function buildHierarchyHtml(hierarchy1) {
         instance.data.logging ? console.log("heirBuild", hierarchy1) : null;
@@ -628,6 +638,7 @@
             cardListHtml += childCardHtml;
         }
         cardListHtml += '</li>';
+        instance.data.start = false;
         return cardListHtml;
     }
     instance.data.callNestedSortable();
@@ -660,7 +671,7 @@
                     instance.data.singleDas = das;
                     instance.data.singleAPS = aps1;
                     if (aps1[0] && das) {
-                        instance.data.addSingleDAS(das, aps1[0]);
+                        if (instance.data.sliderEnabled) {instance.data.addSingleDAS(das, aps1[0]);}
                     }
                 } else {
                     instance.data.logging ? console.log("das Found") : null;
@@ -676,7 +687,7 @@
                     let apsID = toas.get('attribute_custom_attribute').get('_id');
                     const aps1 = instance.data.APS.filter((aps2) => aps2.attribute_id_text === apsID);
                     if (aps1[0] && toas) {
-                        instance.data.addSingleTOAS(toas, aps1[0]);
+                        if (instance.data.sliderEnabled) {instance.data.addSingleTOAS(toas, aps1[0]);}
                     }
                 } else {
                     instance.data.logging ? console.log("das Found") : null;
@@ -699,7 +710,7 @@
             let DASProperties = ['account_webpage_custom_account_webpage', 'attribute_custom_attribute',
                 'box_height_number', 'box_width_number', 'corner_roundness_number', 'initial_drawn_scale_number',
                 'mobile_screenshot_custom_webpage_screenshot', 'stroke_width_number', 'syllabus_box_side_number',
-                'syllabus_box_width_number', 'webpage_screenshot_custom_webpage_screenshot', 'x_coordinate_number',
+                'syllabus_box_width_number', 'snapshot', 'webpage_screenshot_custom_webpage_screenshot', 'x_coordinate_number',
                 'y_coordinate_number', 'Created By', 'Slug', 'Created Date', 'Modified Date', '_id'
             ];
             let TOASProperties = ['attribute_custom_attribute',
@@ -737,7 +748,7 @@
         //////////Experimental Data grab from API
         if (!instance.data.isBubble) {
             instance.data.logging ? console.log("!isBubble") : null;
-            var planId = '1676060419773x473669207853629400';
+            var planId = '1678808469407x515207012437458940';
             //
             instance.data.getAPS = function(plan) {
                 // Create a form data object
@@ -787,15 +798,17 @@
             ///
             instance.data.data_source_length = instance.data.APS_result.length;
             instance.data.plan_unique_id = instance.data.result.Plan['_id'];
-            instance.data.hierarchyInitial = instance.data.result.Plan['JQTree HTML'];
-            instance.data.hierarchyInitial = `[{"id":"1678415203749x380697560508006400","foo":"bar"},{"id":"1678415192492x736722261622652900","foo":"bar"},{"id":"1678398093386x413274195503349760","foo":"bar"},{"id":"1678400741256x961039459617341400","foo":"bar"},{"id":"1678400899822x568186102965862400","foo":"bar"}]`;
-            instance.data.html_field = instance.data.hierarchyInitial;
+            instance.data.hierarchyInitial = instance.data.result.Plan['Hierarchy Content'];
+            console.log('Hier content',instance.data.hierarchyInitial);
+           // instance.data.hierarchyInitial = `[{"id":"1678400741256x961039459617341400","foo":"bar"},{"id":"1678398093386x413274195503349760","foo":"bar"},{"id":"1678400899822x568186102965862400","foo":"bar"},{"id":"1678415192492x736722261622652900","foo":"bar"},{"id":"1678415203749x380697560508006400","foo":"bar"}]`;
+            //instance.data.html_field = instance.data.hierarchyInitial;
             let DAS = instance.data.result['DAS'];
             let TOAS = instance.data.result['TOAS'];
             let DASV = instance.data.result['DASV'];
             let TOASV = instance.data.result['TOASV'];
             let APS = instance.data.result['APS'];
-            let DASProperties = ['Desktop Screenshot', 'Modified Date', 'Created Date', 'Created By', 'Y Coordinate', 'X Coordinate', 'Box Width', 'Box Height', 'Attribute', 'Account Webpage', 'Initial drawn scale', '_id'];
+            let screenshots = instance.data.result['Screenshots'];
+            let DASProperties = ['Desktop Screenshot', 'Modified Date', 'Created Date', 'Created By', 'Y Coordinate', 'X Coordinate', 'Box Width', 'Box Height', 'Attribute', 'snapshot', 'Account Webpage', 'Initial drawn scale', '_id'];
             let TOASProperties = ['Created Date', 'Attribute', 'Webpage', 'Text Snippet ', 'Created By', 'Modified Date', '_id'];
             let APSProperties = ['Plan', 'Modified Date', 'Created By', 'Created Date', 'Attribute', 'Attribute Name', 'Attribute ID', '_id'];
             instance.data.logging ? console.log("props", DASProperties, TOASProperties, APSProperties) : null;
@@ -809,7 +822,7 @@
             instance.data.TOAS = [];
             instance.data.APS = [];
             instance.data.addDASTOASAPI(DAS, TOAS, instance.data.DAS, instance.data.TOAS, DASV, TOASV, APS, instance.data
-                .APS);
+                .APS, screenshots);
             instance.data.logging ? console.log("starting isBubble main") : null;
             instance.data.logging ? console.log("APS modified", instance.data.APS) : null;
             instance.data.data_source_length = instance.data.APS.length;
@@ -826,8 +839,8 @@
         //We create the html from the attribute plan snippets only in the first render, for all subsequent renders, we use the hierarchy object (hierarchyContent)
         //used to allow for data processing before startup
         function main() {
-            //instance.data.halt = true;
-            console.log("main called", instance.data.hierarchyInitial, instance.data.start);
+            instance.data.halt = true;
+            console.log("main called");
             window.CSP = instance;
             // Looping through all the attribute plan snippets and creating their markup the first time when its loaded when theres no hierarchy data
             if (!instance.data.hierarchyInitial && instance.data.start) {
@@ -845,7 +858,6 @@
                 //instance.data.logging ? console.log(cardStackHtml):null;
                 instance.canvas.html(cardStackHtml)
             } else if (instance.data.hierarchyInitial && instance.data.start) {
-                console.log("hierarchy start");
                 let cardStackHtml = '<ol id="' + instance.data.plan_unique_id +
                     '" class="sortable ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded">' +
                     buildHierarchyHtml(instance.data.hierarchyInitial) + "</ol>";
@@ -855,8 +867,11 @@
 
 
             //CSP Add create sliders
-            instance.data.logging ? console.log("sliderpoint", instance.data.APS) : null;
+            instance.data.logging ? console.log("sliderpoint", instance.data.APS,instance.data.sliderEnabled) : null;
+            if (instance.data.sliderEnabled) {
+                console.log("instance.data.addSlider","sliderpoint");
             instance.data.addSlider(instance.data.APS);
+        }
 
             //After generating the html, we call Nested Sortable and Quill on it
             instance.data.callNestedSortable();
@@ -869,7 +884,7 @@
             //Call toHierarchy function to update the hierarchy object
             //CSP needs to be at end of main()
             if (instance.data.start) {
-                //instance.data.halt = true;
+                instance.data.halt = true;
                 if (instance.data.html_field && !instance.data.hierarchyInitial) {
                     instance.data.logging ? console.log('Checking for JQuery Html') : null;
                     instance.canvas.html(instance.data.html_field);
@@ -898,19 +913,21 @@
 
             }
 
-
+            instance.data.start = false;
         }
-        //instance.data.halt = false;
+        instance.data.halt = false;
         //Calling DeleteFoldCollapse listeners
         instance.data.logging ? console.log('Delete,Fold and Collapse Functions Called - Update') : null;
 
 
 
-       // instance.data.start = false;
+       // 
     }
     setTimeout(instance.data.deleteFoldCollapse, 200);
 
     //end update
+
+
 
 //add new list item
     //When a new card is dropped, it has to become part of the hierarchy object 
