@@ -3,149 +3,10 @@
 
 <head>
     <style type="text/css">
-    	.innertext{
-        	cursor:text;    
-    	}
-		
-		.placeholder {
-			outline: 1px dashed #4183C4;
-		}    
-		
-		.mjs-nestedSortable-error {
-			background: #fbe3e4;
-			border-color: transparent;
-		}
-		
-		#tree {
-			width: 550px;
-			margin: 0;
-		}
-				
-		ol.sortable,ol.sortable ol {
-			list-style-type: none;
-            max-width: 850px;
-			padding-left: 25px;
-		}
-    
-    	.sortable li{
-            margin-bottom: 10px;
-            
-    	}
-    
-		.sortable li div {
-			
-			-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
-			cursor: move;
-			border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-			margin: 0;
-			padding: 3px;
-		}
-		
-		li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
-			border-color: #999;
-		}
-		.contentContainer{
-            background: inherit;
-            border: 1px solid #d4d4d4;
-            display: inline-block;
-            
-    	}
-		.disclose, .expandEditor {
-			cursor: pointer;
-			width: 20px;
-			display: none;
-		}
-		
-		.sortable li.mjs-nestedSortable-collapsed > ol {
-			display: none;
-		}
-		
-		.sortable li.mjs-nestedSortable-branch > div > .disclose {
-			display: inline-block;
-		}
-		
-		.sortable span.ui-icon {
-			display: inline-block;
-			margin: 0;
-			padding: 0;
-		}
-		
-		
-		
-		.menuEdit {
-			background: #FFF;
-		}
-		
-		input.itemTitle {
-			vertical-align: middle;
-			cursor: text;
-            width: 100%;
-			border-style: none!important;
-            font-size: 20px;
-			background-color: inherit;
-            
-		}
-		
-		.deleteMenu {
-			float: right;
-			cursor: pointer;
-		}
-				
-		p,ol,ul,pre,form {
-			margin-top: 0;
-			margin-bottom: 1em;
-		}
-		
-		
-		dd {
-			margin: 0;
-			padding: 0 0 0 1.5em;
-		}
-		
-		code {
-			background: #e5e5e5;
-		}
-		
-		
-		.notice {
-			color: #c33;
-		}
-    .menuContainer {
-        display: flex;
-        width: 100%;
-        
-    }
-    
-    span.dragHandle {
-        display: inline-block;
-      
-    }
-    
-    .parentContainer {  
-        display: flex;
-        flex-direction: row;
-    }
-    
-    .dragContainer {  
-        position: relative;
-        flex-grow: 1;
-    }
-    
-   .dragHandle {    
-       top: 50%;
-       position: absolute;
-       margin: 0;
-       left: 50%;
-       transform: translate(-50%, -50%);
-    }
-    
-    .contentContainer {
-       flex-grow: 5;
-    }
-    
-            .innertext {
+        body {
+  background-color: #eeeeee; /* set the background color of the page to white */
+}
+        .innertext {
             cursor: text;
         }
 
@@ -180,9 +41,9 @@
             border-radius: 3px;
             cursor: move;
             border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-  margin: auto;
-    padding: 3px;
-    max-width: 100% !important;
+            margin: 0;
+            padding: 0px;
+            max-width: 99%;
         }
 
         li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
@@ -193,6 +54,7 @@
             background: inherit;
             border: 1px solid #d4d4d4;
             display: inline-block;
+            margin-left: 2px;
         }
 
         .disclose,
@@ -220,13 +82,61 @@
             background: #FFF;
         }
 
-        input.itemTitle {
+        .cardTitle {
             vertical-align: middle;
             cursor: text;
             width: 100%;
             border-style: none !important;
             font-size: 20px;
             background-color: inherit;
+            resize: none;
+            overflow: hidden;
+            transition: height 0.2s ease-out;
+            height: auto;
+            max-height: 100px;
+        }
+
+        .cardTitle.overflow-ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .labelTitleContainer {
+            border: 1px solid black;
+            padding-top: 10px !important;
+            padding: 4px !important;
+        }
+
+        .quillTitleContainer {
+            box-sizing: border-box;
+            padding: 4px;
+        }
+
+        .contentContainer {
+  position: relative;
+}
+
+        .labelTitle {
+            vertical-align: middle;
+            cursor: text;
+            width: 100%;
+            border-style: none !important;
+            font-size: 20px;
+            background-color: inherit;
+            resize: none;
+            overflow: hidden;
+            transition: height 0.2s ease-out;
+            height: auto;
+            max-height: 100px;
+
+            margin-left: 4px;
+        }
+
+        .labelTitle.overflow-ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .deleteMenu {
@@ -259,6 +169,7 @@
         .menuContainer {
             display: flex;
             width: 100%;
+            padding: 5px !important;
         }
 
         span.dragHandle {
@@ -280,7 +191,7 @@
             position: absolute;
             margin: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-100%, -50%);
         }
 
         .contentContainer {
@@ -290,61 +201,66 @@
         .invisible {
             display: none;
         }
-        .div-image {    -webkit-text-size-adjust: 100%;
-    --font_default: Lato;
-    --color_primary_default: rgba(2, 5, 211, 1);
-    --color_primary_default_rgb: 2,5,211;
-    --color_primary_contrast_default: rgba(255, 255, 255, 1);
-    --color_primary_contrast_default_rgb: 255,255,255;
-    --color_text_default: rgba(9, 23, 71, 1);
-    --color_text_default_rgb: 9,23,71;
-    --color_surface_default: rgba(255, 255, 255, 1);
-    --color_surface_default_rgb: 255,255,255;
-    --color_background_default: rgba(255, 255, 255, 0);
-    --color_background_default_rgb: 255,255,255;
-    --color_destructive_default: rgba(255, 0, 0, 1);
-    --color_destructive_default_rgb: 255,0,0;
-    --color_success_default: rgba(23, 219, 78, 1);
-    --color_success_default_rgb: 23,219,78;
-    --color_alert_default: rgba(250, 181, 21, 1);
-    --color_alert_default_rgb: 250,181,21;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    pointer-events: auto;
-    overflow: visible;
-    box-sizing: border-box;
-    position: absolute;
-    z-index: 2;
-    top: 0px;
-    border-radius: 0px;
-    width: 132px;
-    left: 0px;
-    height: 117px;
-    background-color: rgba(255, 255, 255, 0);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url("https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1");
+
+        .div-image {
+            -webkit-text-size-adjust: 100%;
+            --font_default: Lato;
+            --color_primary_default: rgba(2, 5, 211, 1);
+            --color_primary_default_rgb: 2, 5, 211;
+            --color_primary_contrast_default: rgba(255, 255, 255, 1);
+            --color_primary_contrast_default_rgb: 255, 255, 255;
+            --color_text_default: rgba(9, 23, 71, 1);
+            --color_text_default_rgb: 9, 23, 71;
+            --color_surface_default: rgba(255, 255, 255, 1);
+            --color_surface_default_rgb: 255, 255, 255;
+            --color_background_default: rgba(255, 255, 255, 0);
+            --color_background_default_rgb: 255, 255, 255;
+            --color_destructive_default: rgba(255, 0, 0, 1);
+            --color_destructive_default_rgb: 255, 0, 0;
+            --color_success_default: rgba(23, 219, 78, 1);
+            --color_success_default_rgb: 23, 219, 78;
+            --color_alert_default: rgba(250, 181, 21, 1);
+            --color_alert_default_rgb: 250, 181, 21;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font: inherit;
+            vertical-align: baseline;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            pointer-events: auto;
+            overflow: visible;
+            box-sizing: border-box;
+            position: absolute;
+            z-index: 2;
+            top: 0px;
+            border-radius: 0px;
+            width: 132px;
+            left: 0px;
+            height: 117px;
+            background-color: rgba(255, 255, 255, 0);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url("https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1");
         }
 
 
         .image {
-  width: 100%;
-  height: auto;
-  max-width: 132px; /* or any other max-width you want */
-  max-height: 117px; /* or any other max-height you want */
-  object-fit: contain;
-}
-    /*
+            width: 100%;
+            height: auto;
+            max-width: 132px;
+            /* or any other max-width you want */
+            max-height: 117px;
+            /* or any other max-height you want */
+            object-fit: contain;
+        }
+
+        /*
             height: 117px;
             width: 132px;
             object-fit: contain;
-      */  
-        
+      */
+
 
         .div-text {
             -webkit-text-size-adjust: 100%;
@@ -380,288 +296,195 @@
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             max-width: 100px;
         }
-    .container {
-        -webkit-text-size-adjust: 100%;
-    --font_default: Lato;
-    --color_primary_default: rgba(2, 5, 211, 1);
-    --color_primary_default_rgb: 2,5,211;
-    --color_primary_contrast_default: rgba(255, 255, 255, 1);
-    --color_primary_contrast_default_rgb: 255,255,255;
-    --color_text_default: rgba(9, 23, 71, 1);
-    --color_text_default_rgb: 9,23,71;
-    --color_surface_default: rgba(255, 255, 255, 1);
-    --color_surface_default_rgb: 255,255,255;
-    --color_background_default: rgba(255, 255, 255, 0);
-    --color_background_default_rgb: 255,255,255;
-    --color_destructive_default: rgba(255, 0, 0, 1);
-    --color_destructive_default_rgb: 255,0,0;
-    --color_success_default: rgba(23, 219, 78, 1);
-    --color_success_default_rgb: 23,219,78;
-    --color_alert_default: rgba(250, 181, 21, 1);
-    --color_alert_default_rgb: 250,181,21;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    pointer-events: auto;
-    overflow: visible;
-    box-sizing: border-box;
-    width: 700px;
-    left: 0px;
-    position: absolute;
-    z-index: 2;
-    top: 0px;
-    background-color: rgb(0, 0, 0);
-    border-radius: 0px;
-    height: 133px;
-    }
 
-    .slick-prev:before, .slick-next:before {
-      color: black !important;
-    }
-    
-
-.slider img {
-  display: inline-block; /* display the slider items as inline-block elements */
-  vertical-align: top; /* align the items to the top of the container */
-  max-height: 100%; /* prevent the items from overflowing vertically */
-  height: auto;
-  max-width: 100px;
-}
-    
-.slick-slide {
-  width: 200px; /* set the width to 200px */
-  height: 150px; /* set the height to 150px */
-}
-.slick-dotted.slick-slider {
-    margin-bottom: 30px;
-    width: auto;
-}
-    .slick-next:before, .slick-prev:before {
-    font-family: slick;
-    font-size: 20px;
-    line-height: 1;
-    opacity: .75;
-    color: #fff !important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-    
-  
-</style>
-<!--flickety styles -->
-    <style>
-      /* Style the carousel cells */
-      .carousel-cell {
-        width: 150px;
-        height: 150px;
-        margin-right: 10px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      /* Style the carousel images */
-      .carousel-img {
-        max-width: 100%;
-        max-height: 100%;
-      }
-      .carousel-img:hover {
-        transform: scale(1.5);
-      }
-      
-      /* Style the carousel text */
-      .carousel-text {
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-          color:black;
-      }
-        .slider_invisible
-        {
-        display:none;
+        .container {
+            -webkit-text-size-adjust: 100%;
+            --font_default: Lato;
+            --color_primary_default: rgba(2, 5, 211, 1);
+            --color_primary_default_rgb: 2, 5, 211;
+            --color_primary_contrast_default: rgba(255, 255, 255, 1);
+            --color_primary_contrast_default_rgb: 255, 255, 255;
+            --color_text_default: rgba(9, 23, 71, 1);
+            --color_text_default_rgb: 9, 23, 71;
+            --color_surface_default: rgba(255, 255, 255, 1);
+            --color_surface_default_rgb: 255, 255, 255;
+            --color_background_default: rgba(255, 255, 255, 0);
+            --color_background_default_rgb: 255, 255, 255;
+            --color_destructive_default: rgba(255, 0, 0, 1);
+            --color_destructive_default_rgb: 255, 0, 0;
+            --color_success_default: rgba(23, 219, 78, 1);
+            --color_success_default_rgb: 23, 219, 78;
+            --color_alert_default: rgba(250, 181, 21, 1);
+            --color_alert_default_rgb: 250, 181, 21;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font: inherit;
+            vertical-align: baseline;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            pointer-events: auto;
+            overflow: visible;
+            box-sizing: border-box;
+            width: 700px;
+            left: 0px;
+            position: absolute;
+            z-index: 2;
+            top: 0px;
+            background-color: rgb(0, 0, 0);
+            border-radius: 0px;
+            height: 133px;
         }
-        
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: black !important;
+        }
+
+
+        .slider img {
+            display: inline-block;
+            /* display the slider items as inline-block elements */
+            vertical-align: top;
+            /* align the items to the top of the container */
+            max-height: 100%;
+            /* prevent the items from overflowing vertically */
+            height: auto;
+            max-width: 100px;
+        }
+
+        .slick-slide {
+            width: 200px;
+            /* set the width to 200px */
+            height: 150px;
+            /* set the height to 150px */
+        }
+
+        .slick-dotted.slick-slider {
+            margin-bottom: 30px;
+            width: auto;
+        }
+
+        .slick-next:before,
+        .slick-prev:before {
+            font-family: slick;
+            font-size: 20px;
+            line-height: 1;
+            opacity: .75;
+            color: #fff !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+    <!--flickety styles -->
+    <style>
+        /* Style the carousel cells */
+        .carousel-cell-text {
+            width: 150px;
+            height: 150px;
+            margin-right: 10px;
+            background-color: #fff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-cell-image {
+            width: 150px;
+            height: 150px;
+            margin-right: 10px;  
+            margin: 10px !important;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Style the carousel images */
+        .carousel-img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .carousel-img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Style the carousel text */
+        .carousel-text {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .carousel-text:hover {
+            transform: scale(1.03);
+        }
+
+
+        .slider_invisible {
+            display: none;
+        }
+
     </style>
 
-<style>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//dd7tel2830j4w.cloudfront.net/f1669647901984x476989271686958140/JQuery-UI.css" />
+    <script
+        src="https://dd7tel2830j4w.cloudfront.net/f1669647739015x578154305853939600/jquery.mjs.nestedSortable.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Main Quill library -->
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-    .crop-das-1678128737839x526196737749039550 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678127723545x966637157294747900/c32c91ac4a1c56e0c12fab8981c18de903a8b5173d3bb3caf7c8194de9379389?w=1000');
-    width: 118.012422360248px;
-        height: 84.8861283643892px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -635.610766045549px -319.422877846791px;
-    }
-     
-    .crop-das-1678132388186x642567821249437200 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1677018716963x491555617461404860/b94517185c45d530e5577af0f2d683a63a537b1665425b4afea643447700fd5b?w=1000');
-    width: 258.79917184265px;
-        height: 171.84265010352px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -449.275362318841px -696.234472049689px;
-    }
-     
-    .crop-das-1678312391819x339217432864234560 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1668464990631x223312708217289000/8a04d957d5ce5d7be4be4357efc3d8fa4422f5c6f5f2a32f1775c573a1b62cb3?w=1000');
-    width: 197.770234986945px;
-        height: 183.060052219321px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -384.099216710183px -703.279536553525px;
-    }
-     
-    .crop-das-1678415170275x741577383153476200 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678127723545x966637157294747900/c32c91ac4a1c56e0c12fab8981c18de903a8b5173d3bb3caf7c8194de9379389?w=1000');
-    width: 242.236024844721px;
-        height: 99.3788819875776px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -719.461697722567px -663.528726708075px;
-    }
-     
-    .crop-das-1678732473388x456916954475860500 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678127723545x966637157294747900/c32c91ac4a1c56e0c12fab8981c18de903a8b5173d3bb3caf7c8194de9379389?w=1000');
-    width: 287.784679089027px;
-        height: 215.320910973085px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -71.4285714285714px -1821.84912008282px;
-    }
-     
-    .crop-das-1678807339195x147999576235753320 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678127723545x966637157294747900/c32c91ac4a1c56e0c12fab8981c18de903a8b5173d3bb3caf7c8194de9379389?w=1000');
-    width: 193.166885676741px;
-        height: 105.124835742444px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -466.224540078844px -2089.85585464261px;
-    }
-     
-    .crop-das-1678808420728x808920506480564000 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1680539965589x438019374617401700/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a.png?w=1000');
-    width: 536.231884057971px;
-        height: 296.066252587992px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -231.884057971014px -72.3020186335404px;
-    }
-     
-    .crop-das-1680537671746x274906567833470100 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1676314314457x169684413807302140/8dcc93329d02bdbacd54dc2a91b1dd5ef3e4e78b42486490b701124cffbc921b?w=1000');
-    width: 652.741514360313px;
-        height: 415.143603133159px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -195.822454308094px -932.849216710183px;
-    }
-     
-    .crop-das-1680538459668x159295955460726270 {
-      background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1680539965589x438019374617401700/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a.png?w=1000');
-    width: 345.755693581781px;
-        height: 190.47619047619px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -496.894409937888px -1060.62370600414px;
-    }
-     
-    .crop-das-1680538473863x661709018348654100 {
-      background-image: url('https://s3.amazonaws.com/appforest_uf/d110/f1680542753694x551081704338485250/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a%20%285%29.png?w=1000&rect=335,1269,339,200');
-   /* width: 339.544513457557px;
-        height: 200.828157349896px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: -335.403726708075px -1269.733436853px;
-        */
-    }
-    .crop-das-1680540280548x994013095127173800 {
-  background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1680539965589x438019374617401700/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a.png?rect=870,1625,372,229&width=150');
-  overflow: hidden;
-    background-repeat: no-repeat;
-    /* width: 272.614622057001px;
-    height: 179.677819083024px;
-870,1625,372,229
-    background-position: -682.775712515489px -1268.76161710037px;*/
-}
-.crop-das-1680542877473x917835903874905600 {
-  background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678808398085x347429457005178800/2c93831d35bb04fd5c8cf6aae67e860aae3b6040cf8089e1a3a2f48557c0ac93?w=1000');
-width: 142.361111111111px;
-    height: 59.0277777777778px;
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-position: -428.819444444444px -452.935112847222px;
-}
-.crop-das-1680542976368x846861975992650400 {
-  background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1678808398085x347429457005178800/2c93831d35bb04fd5c8cf6aae67e860aae3b6040cf8089e1a3a2f48557c0ac93?rect=0,1154,668,281');
-  overflow: hidden;
-    background-repeat: no-repeat;
-    /*width: 668.402777777778px;
-    height: 281.25px;
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
 
-    background-position: -0px -1154.32400173611px;
-    */
-}
-.crop-das-1680544082174x926966691548051500 {
-  background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1680542842229x813987740977742100/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a%20%285%29.png?rect=754,708,237,154');
-/*width: 237.918215613383px;
-    height: 154.894671623296px;
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-position: -754.646840148699px -708.662484510533px;*/
-}
-.crop-das-1680544255792x532029103621138400 {
-  background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1680542842229x813987740977742100/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a%20%285%29.png?rect=192,449,587,442');
-/*width: 587.360594795539px;
-    height: 442.379182156134px;
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-position: -192.069392812887px -449.678593556382px;*/
-}
-
-    </style>
-    
- <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="//dd7tel2830j4w.cloudfront.net/f1669647901984x476989271686958140/JQuery-UI.css"/>
-<script src = "https://dd7tel2830j4w.cloudfront.net/f1669647739015x578154305853939600/jquery.mjs.nestedSortable.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<!-- Main Quill library -->
-<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
-<!-- Theme included stylesheets -->
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
-<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
-
-<!-- Flickety slider -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.min.css" />
+    <!-- Flickety slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.pkgd.min.js"></script>
-<style>
-.sortable li {
-  margin-left: 20px;
+    <style>
+
+.quillEditor {
+    border: 1px solid #ccc !important;
+    padding: 15px !important;
 }
-.sortable li li {
-  margin-left: 40px;
+#myInput {
+  width: 25%; /* or width: 2em; */
 }
-.sortable li li li {
-  margin-left: 60px;
+
+div.ql-toolbar[hidden="true"] .ql-editor > *:last-child {
+    padding-bottom: 0 !important;
 }
-</style>
-</head>
+
+div.ql-toolbar[hidden="true"] .ql-editor > *:first-child {
+    padding-top: 0 !important;
+}
+ol > li {
+  margin-bottom: 0px; /* or any other value */
+}
+li > li {
+  margin-bottom: 0px; /* or any other value */
+}
+    </style>
+    </head>
 
 <body>
-    <div> <img class="image" src="https://d1muf25xaso8hp.cloudfront.net/https://s3.amazonaws.com/appforest_uf/d110/f1680542842229x813987740977742100/f140f703dfd2ba9d7a404b28809c94aede4469ac516561e0cf1ab658c72da30a%20%285%29.png?w=1000&auto=format&ixlib=js-2.2.4&rect=192,449,587,442" alt="">
-    </div>
-    <div id="cardstack"></div>
+</br>
+    <label for="myInput">Enter a planID:</label>
+    <input id="myInput" name="myInput" value="1680285270341x236915314142216200" required>
+    <button id="processButton">Start Process</button>
+    <button id="sliderButton">Toggle Slider</button>
+    <button id="disableButton">Disable</button>
+    <button id="expandButton">Expand</button>
+    <button id="scrollButton">Scroll</button>
+</br></br></br></br>   
+    <div id="cardstack"> </div>
 
-<!--  <div id="myslider" class="slider responsive container">
+    <!--  <div id="myslider" class="slider responsive container">
             <div>
                 <div class="image">
                     <img data-lazy="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Fd110%2Ff1677264918015x724524660577431200%2Fimage%2520%2528328%2529.png?w=192&h=170&auto=compress&fit=crop&dpr=1" />
@@ -692,31 +515,32 @@ width: 142.361111111111px;
                 </div>
             </div>
         </div>
-        -->  
+        -->
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script type="module" src="initialize.js"></script>
     <script>
-            var generateListItemHtml = (attributeplansnippet) => {
-                //generate a div that contains the menu section, and all elements within it are divs in a flex group. Stlying is applied via the add to header section of the plugin editor
-                let newListElement = '<li id="menuItem_' + attributeplansnippet.get("_id") +
-                    '" style="display: list-item;" class="mjs-nestedSortable-leaf" data-foo="bar"><div class = "parentContainer highlightable highlight-' +
-                    attributeplansnippet.get("attribute_id_text") + '" id="' + attributeplansnippet.get("attribute_id_text") +
-                    '"><div class = "dragContainer"><span class="dragHandle material-icons">drag_indicator</span></div><div class="contentContainer">'+
-                    '<div class ="menuContainer"><span title="Click to show/hide children" class="disclose ui-icon ui-icon-minusthick"><span></span></span><span title="Click to show/hide description" data-id="' +
-                    attributeplansnippet.get("_id") +
-                    '" class = "expandEditor material-icons" >expand_more</span><input  type="text" class = "itemTitle" data-id="' +
-                    attributeplansnippet.get("_id") + '"value="' + attributeplansnippet.get("attribute_name_text") +
-                    '"><span class="deleteMenu material-icons" title="Click to delete item." data-id="' + attributeplansnippet
-                    .get("_id") + '">close</span></div>' + 
-                    
-                    '<div class = "quillContainer" id="' + attributeplansnippet.get(
-                        "_id") + '"><div class="quillEditor" id="' + attributeplansnippet.get("_id") + '"></div></div>' +
-                    `<div id="slider-aps-${attributeplansnippet.get("_id")}"></div>` + '</div></div></li>';
-                console.log("newListElement", newListElement);
-                //"attribute_id_text"
-                return newListElement;
+        var generateListItemHtml = (attributeplansnippet) => {
+            //generate a div that contains the menu section, and all elements within it are divs in a flex group. Stlying is applied via the add to header section of the plugin editor
+            let newListElement = '<li id="menuItem_' + attributeplansnippet.get("_id") +
+                '" style="display: list-item;" class="mjs-nestedSortable-leaf" data-foo="bar"><div class = "parentContainer highlightable highlight-' +
+                attributeplansnippet.get("attribute_id_text") + '" id="' + attributeplansnippet.get("attribute_id_text") +
+                '"><div class = "dragContainer"><span class="dragHandle material-icons">drag_indicator</span></div><div class="contentContainer">' +
+                '<div class ="menuContainer"><span title="Click to show/hide children" class="disclose ui-icon ui-icon-minusthick"><span></span></span><span title="Click to show/hide description" data-id="' +
+                attributeplansnippet.get("_id") +
+                '" class = "expandEditor material-icons" >expand_more</span><input  type="text" class = "itemTitle" data-id="' +
+                attributeplansnippet.get("_id") + '"value="' + attributeplansnippet.get("attribute_name_text") +
+                '"><span class="deleteMenu material-icons" title="Click to delete item." data-id="' + attributeplansnippet
+                    .get("_id") + '">close</span></div>' +
+
+                '<div class = "quillContainer" id="' + attributeplansnippet.get(
+                    "_id") + '"><div class="quillEditor" id="' + attributeplansnippet.get("_id") + '"></div></div>' +
+                `<div id="slider-aps-${attributeplansnippet.get("_id")}"></div>` + '</div></div></li>';
+            console.log("newListElement", newListElement);
+            //"attribute_id_text"
+            return newListElement;
             }
-    </script>
-</body>
+
+        </script>
+    </body>
 
 </html>

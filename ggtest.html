@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Image Gallery</title>
+    <style>
+        .popup-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 2000;
+        }
+        
+        .popup-container {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 2px 2px 4px 0 #000;
+            box-sizing: border-box;
+            display: none;
+            left: 50%;
+            margin: -230px 0 0 -200px;
+            padding: 50px;
+            position: fixed;
+            top: 50%;
+            width: 400px;
+            z-index: 2001;
+        }
+        
+        .popup-container .bubble-element {
+            text-align: center;
+        }
+        
+        .popup-container .bubble-element.Group {
+            border: none;
+            height: 100%;
+            position: static;
+        }
+        
+        .popup-container .bubble-element.Text {
+            font-family: Poppins;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.16667;
+            margin-bottom: 24px;
+        }
+        
+        .popup-container .bubble-element.Text:last-child {
+            margin-bottom: 12px;
+        }
+        
+        .popup-container .bubble-element.Button {
+            background: #F4E132;
+            border: none;
+            border-radius: 7px;
+            color: #000;
+            cursor: pointer;
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.125;
+            margin-top: 24px;
+            padding: 0;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+        
+        .popup-container .bubble-element.Button:hover {
+            background: #D9CB2C;
+        }
+        
+        .popup-container .bubble-element.Button:focus {
+            outline: none;
+        }
+        
+        .popup-container .bubble-element.Button a {
+            color: #000;
+            display: block;
+            height: 100%;
+            padding: 12px;
+            text-decoration: none;
+            width: 100%;
+        }
+        
+        .popup-container .bubble-element.Button a:hover {
+            text-decoration: underline;
+        }
+        .image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-basis: auto; /* set flex-basis to auto to keep images at full size */
+}
+        </style>
+        
+</head>
+<body>
+	<div class="container image-container"><div class="image-container">
+        <!-- images will be added dynamically here -->
+      </div></div>
+	<div class="popup-overlay"></div>
+    <div class="popup-container">
+        <div class="bubble-element Group">
+          <div class="bubble-element Text">Let's Start Booking</div>
+          <div class="bubble-element Text">Yes, it's Free. No Fees. No Surprises.</div>
+          <div class="bubble-element Button">
+            <a href="https://get-gigs.com/?l=y" target="_blank">LAUNCH MY FREE PROFILE</a>
+          </div>
+        </div>
+      </div>
+      
+    <script>
+        fetch('https://get-gigs.bubbleapps.io/version-test/api/1.1/wf/iframe_cards/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "url": "https://get-gigs.bubbleapps.io/version-test/api/1.1/wf/iframe_cards/",
+                "data": {}
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const images = data.response.image;
+            const container = document.querySelector('.container');
+    
+            images.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.setAttribute('src', `https:${imageUrl}`);
+                img.addEventListener('click', () => {
+                    const popupOverlay = document.querySelector('.popup-overlay');
+                    const popupContainer = document.querySelector('.popup-container');
+                    const popupButton = popupContainer.querySelector('button');
+    
+                    popupContainer.style.display = 'block';
+                    popupOverlay.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+    
+                    popupOverlay.addEventListener('click', closePopup);
+    
+                    function closePopup() {
+                        popupContainer.style.display = 'none';
+                        popupOverlay.style.display = 'none';
+                        document.body.style.overflow = '';
+                        popupOverlay.removeEventListener('click', closePopup);
+                    }
+                });
+                container.appendChild(img);
+            });
+    
+            window.addEventListener('resize', debounce(() => {
+                const container = document.querySelector('.container');
+                const containerWidth = container.offsetWidth;
+                const images = container.querySelectorAll('img');
+                let currentRowWidth = 0;
+                let currentRowStartIndex = 0;
+    
+                images.forEach((img, index) => {
+                    currentRowWidth += img.offsetWidth + 20;
+                    if (currentRowWidth > containerWidth) {
+                        for (let i = currentRowStartIndex; i < index; i++) {
+                            images[i].style.marginBottom = '10px';
+                        }
+                        currentRowStartIndex = index;
+                        currentRowWidth = img.offsetWidth + 20;
+                    } else {
+                        img.style.marginBottom = '10px';
+                    }
+                });
+    
+                for (let i = currentRowStartIndex; i < images.length; i++) {
+                    images[i].style.marginBottom = '0';
+                }
+            }, 100));
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    
+        function debounce(func, delay) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(context, args);
+                }, delay);
+            };
+        }
+    </script>
+</body>    
