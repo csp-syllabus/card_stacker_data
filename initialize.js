@@ -47,7 +47,7 @@ if (!isBubble) {
 instance.data.listcount = 0;
 instance.data.handleTypingChange = (editor) => {
     // When the typing has stopped, trigger the "stopped_typing" event and update the Quill contents
-    let content = JSON.stringify(editor.innerHTML);
+    let content = editor.innerHTML;
     instance.data.logging ? console.log('stopped_typing', content, editor.id) : null;
     instance.triggerEvent('stopped_typing');
     instance.data.typingTimeout = null;
@@ -55,7 +55,7 @@ instance.data.handleTypingChange = (editor) => {
     instance.publishState('delta', content);
     instance.publishState('editedcard_id', editor.id);
     //instance.publishState('htmlobject', instance.canvas.html());
-    instance.publishState('quill_editor_content', content.substring(1, content.length - 1));
+    instance.publishState('quill_editor_content', content);
     //instance.triggerEvent('relocated');
 };
 instance.data.handleStopTyping = (editor) => {
@@ -96,9 +96,14 @@ let aps = attributeplansnippet._id;
  <span class="dragHandle material-icons">drag_indicator</span></div><div class="contentContainer">
  <div class ="menuContainer"><span title="Click to show/hide children" class="disclose ui-icon ui-icon-minusthick"><span></span>
  </span><span title="Click to show/hide description" data-id="${aps}" class = "expandEditor material-icons" >expand_more</span>
- <input  type="text" class="cardTitle" data-id="${aps}" value="${aps_card_name_text}" ${disabled}>${deleteDisabled}</div><div class="quillContainer quillTitleContainer" id="${aps}"><div class="quillEditor quillBorder" id="${aps}">${aps_quill_text}</div></div>
- <div id="labelTitle-${aps}" class="labelTitleContainer"><input  type="text" class="labelTitle" data-id="${aps}" value="${aps_name_text}" ${disabled}></div>
- <div id="slider-aps-${aps}"></div></div></div>`;
+ <input  type="text" class="cardTitle" data-id="${aps}" value="${aps_card_name_text}" ${disabled}>${deleteDisabled}</div><div class="quillContainer quillTitleContainer" id="${aps}">
+ <div class="quillEditor quillBorder" id="${aps}">${aps_quill_text}</div></div>
+
+
+ <div id="labelTitle-${aps}" style="padding-top: 10px !important;">
+ <input style="padding-top: 10px !important; padding-bottom: 5px !important;" type="text" class="labelTitle" data-id="${aps}" value="Associated label:" disabled>
+ <div class="labelTitleContainer"><input  type="text" class="labelTitle" data-id="${aps}" value="${aps_name_text}" ${disabled}></div>
+ <div id="slider-aps-${aps}"></div></div></div></div>`;
     //console.log("Quill Description Text" + attributeplansnippet.get("description_text"));
     //console.log(cardItemHtml);
     return cardItemHtml;
@@ -508,7 +513,7 @@ instance.data.addQuillEditor = (editor) => {
              var toolbar2 = quill.getModule('toolbar');
              toolbar2.container.style.display = 'block';
          }
-         */
+        */ 
 
     quill.root.addEventListener('focus', (e) => {
         instance.data.focused = true
@@ -626,6 +631,11 @@ instance.data.deleteFoldCollapse = () => {
                 instance.canvas.find(`#labelTitle-${uniqueId}`).removeClass('slider_invisible');
             } else {
                 instance.canvas.find(`#labelTitle-${uniqueId}`).addClass('slider_invisible');
+            }
+            if (instance.canvas.find(`#labelTitle1-${uniqueId}`).hasClass('slider_invisible')) {
+                instance.canvas.find(`#labelTitle1-${uniqueId}`).removeClass('slider_invisible');
+            } else {
+                instance.canvas.find(`#labelTitle1-${uniqueId}`).addClass('slider_invisible');
             }
         });
         waitForElm('.cardTitle').then((elm) => {
@@ -753,14 +763,6 @@ if (!instance.data.isBubble) {
         instance.data.resetPlan();
         console.log('Process started!');
     });
-    var scrollButton = document.getElementById('scrollButton');
-    scrollButton.addEventListener('click', function () {
-        var element = instance.canvas.find('.highlightable.highlight-1677791328153x134075886675165180');
-        if (element.length) {
-            element.get(0).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-        }
-    });
-    
     var input = document.querySelector('#myInput');
     var sliderButton = document.getElementById('sliderButton');
     sliderButton.addEventListener('click', function () {
@@ -785,10 +787,16 @@ expandButton.addEventListener('click', () => {
             if (instance.data.sliderEnabled) {
                 instance.canvas.find(`#slider-aps-${uniqueId}`).removeClass('slider_invisible');
             } 
-            //CSP Add for new Label Title
             if (instance.canvas.find(`#labelTitle-${uniqueId}`).hasClass('slider_invisible')) {
                 instance.canvas.find(`#labelTitle-${uniqueId}`).removeClass('slider_invisible');
-            } 
+            } else {
+                instance.canvas.find(`#labelTitle-${uniqueId}`).addClass('slider_invisible');
+            }
+            if (instance.canvas.find(`#labelTitle1-${uniqueId}`).hasClass('slider_invisible')) {
+                instance.canvas.find(`#labelTitle1-${uniqueId}`).removeClass('slider_invisible');
+            } else {
+                instance.canvas.find(`#labelTitle1-${uniqueId}`).addClass('slider_invisible');
+            }
         })
     } else {
         instance.data.APS.forEach((aps) => {
