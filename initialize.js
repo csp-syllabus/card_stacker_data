@@ -565,7 +565,7 @@ instance.data.addQuillEditor = (editor) => {
     };
 };
 //deletefold
-instance.data.deleteFoldCollapse = () => {
+instance.data.deleteFoldCollapse = () => {editor
     instance.data.logging ? console.log("deleteFoldInitiated") : null;
     waitForElm('.disclose').then((elm) => {
         instance.canvas.find('.disclose').unbind();
